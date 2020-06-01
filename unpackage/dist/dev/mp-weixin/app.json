@@ -1,23 +1,43 @@
 {
   "pages": [
-    "pages/index/index",
-    "pages/message/index",
-    "pages/message/add",
-    "pages/order/index",
-    "pages/order/add",
-    "pages/product/index"
+    "pages/tabbar/index/index",
+    "pages/tabbar/extend/extend",
+    "pages/tabbar/my/my"
   ],
   "subPackages": [],
   "window": {
-    "navigationBarBackgroundColor": "#0081ff",
-    "navigationBarTitleText": "ColorUi for UniApp",
-    "navigationStyle": "custom",
-    "navigationBarTextStyle": "white"
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#5677FC",
+    "navigationBarTitleText": "Thor UI",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#fafafa",
+    "backgroundColorTop": "#fafafa",
+    "backgroundColorBottom": "#fafafa"
   },
-  "usingComponents": {
-    "messages": "/pages/message/index",
-    "orders": "/pages/order/index",
-    "products": "/pages/product/index",
-    "cu-custom": "/colorui/components/cu-custom"
-  }
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#5677FC",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/tabbar/index/index",
+        "text": "code",
+        "iconPath": "static/images/tabbar/code_gray.png",
+        "selectedIconPath": "static/images/tabbar/code_active.png"
+      },
+      {
+        "pagePath": "pages/tabbar/extend/extend",
+        "text": "extend",
+        "iconPath": "static/images/tabbar/extend_gray.png",
+        "selectedIconPath": "static/images/tabbar/extend_active.png"
+      },
+      {
+        "pagePath": "pages/tabbar/my/my",
+        "text": "thor",
+        "iconPath": "static/images/tabbar/thor_gray.png",
+        "selectedIconPath": "static/images/tabbar/thor_active.png"
+      }
+    ]
+  },
+  "usingComponents": {}
 }

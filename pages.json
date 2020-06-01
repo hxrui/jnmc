@@ -1,51 +1,56 @@
 {
-	"pages": [{
-		"path": "pages/index/index",
-		"style": {
-			"navigationBarTitleText": "uni-ui基础项目"
-		}
-	}    ,{
-            "path" : "pages/message/index",
-            "style" : {}
-        },{
-            "path" : "pages/message/add",
-            "style" : {}
-        }
-		
-        ,{
-            "path" : "pages/order/index",
-            "style" : {}
-        }
-		,{
-		    "path" : "pages/order/add",
-		    "style" : {}
-		}
-        ,{
-            "path" : "pages/product/index",
-            "style" : {}
-        }
-		
-    ],
-	"globalStyle": {
-		"mp-alipay": {
-			/* 支付宝小程序特有相关 */
-			"transparentTitle": "always",
-			"allowsBounceVertical": "NO"
+	"pages": [
+		{
+			"path": "pages/tabbar/index/index",
+			"style": {}
 		},
-		"navigationBarBackgroundColor": "#0081ff",
-		"navigationBarTitleText": "ColorUi for UniApp",
-		"navigationStyle": "custom",
-		"navigationBarTextStyle": "white"
+		{
+			"path": "pages/tabbar/extend/extend",
+			"style": {}
+		},
+		{
+			"path": "pages/tabbar/my/my",
+			"style": {}
+		}
+
+	],
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			"tui-(.*)": "@/components/thorui/tui-$1/tui-$1.vue"
+		}
 	},
-	"usingComponts": true,
-		"condition": { //模式配置，仅开发期间生效
-		"current": 0, //当前激活的模式(list 的索引项)
+	"globalStyle": {
+		"backgroundTextStyle": "dark",
+		"navigationBarBackgroundColor": "#5677FC",
+		"navigationBarTitleText": "Thor UI",
+		"navigationBarTextStyle": "white",
+		"backgroundColor": "#fafafa",
+		"backgroundColorTop": "#fafafa",
+		"backgroundColorBottom": "#fafafa"
+	},
+	"tabBar": {
+		"color": "#666666",
+		"selectedColor": "#5677FC",
+		"backgroundColor": "#FFFFFF",
 		"list": [{
-				"name": "表单", //模式名称
-				"path": "pages/index/index", //启动页面
-				"query": "" //启动参数
+				"pagePath": "pages/tabbar/index/index",
+				"text": "code",
+				"iconPath": "static/images/tabbar/code_gray.png",
+				"selectedIconPath": "static/images/tabbar/code_active.png"
+			},
+			{
+				"pagePath": "pages/tabbar/extend/extend",
+				"text": "extend",
+				"iconPath": "static/images/tabbar/extend_gray.png",
+				"selectedIconPath": "static/images/tabbar/extend_active.png"
+			},
+			{
+				"pagePath": "pages/tabbar/my/my",
+				"text": "thor",
+				"iconPath": "static/images/tabbar/thor_gray.png",
+				"selectedIconPath": "static/images/tabbar/thor_active.png"
 			}
 		]
 	}
-
 }
