@@ -1,0 +1,15 @@
+
+.page {
+	height: 100vh;
+}
+.add-action [class*="cuIcon-"] {
+	position: absolute;
+	bottom: 60px;
+	right: 20px;
+	-webkit-border-radius: 50%;
+	        border-radius: 50%;
+	width: 70rpx;
+	line-height: 70rpx;
+	font-size: 50rpx;
+}
+
