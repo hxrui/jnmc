@@ -5,35 +5,48 @@ export default {
 		// #ifdef APP-PLUS
 		/* 5+环境锁定屏幕方向 */
 		plus.screen.lockOrientation('portrait-primary'); //锁定
-		
+
 		/* 5+环境升级提示 */
 		//app检测更新
-		let platform = plus.os.name.toLocaleLowerCase()
-		plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
+		let platform = plus.os.name.toLocaleLowerCase();
+		plus.runtime.getProperty(plus.runtime.appid, widgetInfo => {
 			return false;
-			that.tui.request('/config/getNewestVersion', {
-				platform: platform,
-				version: widgetInfo.version //资源版本号
-			}, 'POST', false, true).then((res) => {
-				if (res.code === 200 && res.data && (res.data.updateUrl || res.data.partUpdateUrl)) {
-					let data = res.data
-					that.tui.modal('检测到新版本', data.updateLog ? data.updateLog : '请您先更新再进行操作，若不及时更新可能导致部分功能无法正常使用。', false, res => {
-						if (data.hasPartUpdate === 0) {
-							//应用市场更新
-							plus.runtime.openURL(data.updateUrl);
-							plus.runtime.restart();
-						} else if (data.hasPartUpdate === 1) {
-							//资源更新（服务器端更新）
-							that.tui.href(`/pages/common/update/update?url=${data.partUpdateUrl}`)
-						}
-					});
-				}
-			}).catch((e) => {})
+			that.tui
+				.request(
+					'/config/getNewestVersion',
+					{
+						platform: platform,
+						version: widgetInfo.version //资源版本号
+					},
+					'POST',
+					false,
+					true
+				)
+				.then(res => {
+					if (res.code === 200 && res.data && (res.data.updateUrl || res.data.partUpdateUrl)) {
+						let data = res.data;
+						that.tui.modal('检测到新版本', data.updateLog ? data.updateLog : '请您先更新再进行操作，若不及时更新可能导致部分功能无法正常使用。', false, res => {
+							if (data.hasPartUpdate === 0) {
+								//应用市场更新
+								plus.runtime.openURL(data.updateUrl);
+								plus.runtime.restart();
+							} else if (data.hasPartUpdate === 1) {
+								//资源更新（服务器端更新）
+								that.tui.href(`/pages/common/update/update?url=${data.partUpdateUrl}`);
+							}
+						});
+					}
+				})
+				.catch(e => {});
 		});
-		
+
 		// #endif
-		
+
 		// #ifdef MP-WEIXIN
+		wx.cloud.init({
+			env: 'jnmc-ronxp',
+			traceUser: true
+		});
 		if (wx.canIUse('getUpdateManager')) {
 			const updateManager = wx.getUpdateManager();
 			updateManager.onCheckForUpdate(function(res) {
@@ -54,12 +67,8 @@ export default {
 		}
 		// #endif
 	},
-	onShow: function() {
-		
-	},
-	onHide: function() {
-		//console.log('App Hide')
-	},
+	onShow: function() {},
+	onHide: function() {},
 	onError: function(err) {
 		//全局错误监听
 		// #ifdef APP-PLUS

@@ -1,3 +1,10 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "tui-card": "/components/thorui/tui-card/tui-card",
+    "tui-tag": "/components/thorui/tui-tag/tui-tag",
+    "tui-loadmore": "/components/thorui/tui-loadmore/tui-loadmore",
+    "tui-nomore": "/components/thorui/tui-nomore/tui-nomore",
+    "tui-fab": "/components/thorui/tui-fab/tui-fab",
+    "tui-modal": "/components/thorui/tui-modal/tui-modal"
+  }
 }

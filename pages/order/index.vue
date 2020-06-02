@@ -1,197 +1,148 @@
-<template name="orders">
-	<view>
-		<scroll-view :scroll-y="modalName==null" class="page" :class="modalName!=null?'show':''">
-			<cu-custom bgColor="bg-gradual-pink" :isBack="true">
-				<block slot="backText">返回</block>
-				<block slot="content">列表</block>
-			</cu-custom>
-			<view class="cu-bar bg-white solid-bottom margin-top">
-				<view class="action">
-					<text class="cuIcon-title text-orange "></text> 单号列表
-				</view>
-				<view class="action">
-					<button class="cu-btn bg-green shadow" @tap="showModal" data-target="gridModal">设置</button>
-				</view>
-			</view>
-			<view class="cu-modal" :class="modalName=='gridModal'?'show':''" @tap="hideModal">
-				<view class="cu-dialog" @tap.stop>
-					<radio-group class="block" @change="Gridchange">
-						<view class="cu-list menu text-left">
-							<view class="cu-item" v-for="(item,index) in 3" :key="index">
-								<label class="flex justify-between align-center flex-sub">
-									<view class="flex-sub">{{index +3}} 列</view>
-									<radio class="round" :value="(index + 3) + ''" :class="gridCol==index+3?'checked':''" :checked="gridCol==index+3"></radio>
-								</label>
-							</view>
-						</view>
-					</radio-group>
-					<view class="cu-list menu text-left solid-top">
-						<view class="cu-item">
-							<view class="content">
-								<text class="text-grey">边框</text>
-							</view>
-							<view class="action">
-								<switch @change="Gridswitch" :class="gridBorder?'checked':''" :checked="gridBorder?true:false"></switch>
-							</view>
-						</view>
-					</view>
-				</view>
-			</view>
-			<view class="cu-list grid" :class="['col-' + gridCol,gridBorder?'':'no-border']">
-				<view class="cu-item" v-for="(item,index) in cuIconList" :key="index" v-if="index<gridCol*2">
-					<view :class="['cuIcon-' + item.cuIcon,'text-' + item.color]">
-						<view class="cu-tag badge" v-if="item.badge!=0">
-							<block v-if="item.badge!=1">{{item.badge>99?'99+':item.badge}}</block>
-						</view>
-					</view>
-					<text>{{item.name}}</text>
-				</view>
-			</view>
-
-		</scroll-view>
-
-		<view class="action add-action">
-			<button class="cu-btn cuIcon-add bg-green shadow" @tap="openMessage"></button>
+<template>
+	<view class="container">
+		<tui-tabs :tabs="navbar" :currentTab="currentTab > 1 ? 0 : currentTab" @change="change" itemWidth="50%"></tui-tabs>
+		<view v-if="currentTab === 0">
+			<tui-grid>
+				<block v-for="(item, index) in dataList" :key="index">
+					<tui-grid-item :cell="2" @click="detail">
+						<text class="tui-grid-label">{{ item.community }}</text>
+						<text class="tui-grid-label">{{ item.room_no}}</text>
+					</tui-grid-item>
+				</block>
+			</tui-grid>
 		</view>
+		<view v-if="currentTab === 1">2</view>
+
+		<tui-fab :left="left" :right="right" :bottom="bottom" :bgColor="bgColor" :btnList="btnList" @click="onClick"></tui-fab>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				cuIconList: [{
-					badge: 0,
-					name: '1#101'
-				}, {
-					color: 'orange',
-					badge: 1,
-					name: '1#102'
-				}, {
-					color: 'yellow',
-					badge: 0,
-					name: '1#103'
-				}, {
-					badge: 0,
-					name: '1#104'
-				}, {
-					badge: 0,
-					name: '1#105'
-				}, {
-					badge: 0,
-					name: '1#106'
-				}, {
-					badge: 0,
-					name: '1#107'
-				}, {
-					badge: 0,
-					name: '1#108'
-				}, {
-					badge: 0,
-					name: '1#109'
-				}, {
-					badge: 0,
-					name: '1#110'
-				}],
-				modalName: null,
-				gridCol: 3,
-				gridBorder: false,
-				menuBorder: false,
-				menuArrow: false,
-				menuCard: false,
-				skin: false,
-				listTouchStart: 0,
-				listTouchDirection: null,
-			};
-		},
-		methods: {
-			openMessage(e) {
-				uni.navigateTo({
-					url: '/pages/order/add'
-				});
-			},
-			showModal(e) {
-				this.modalName = e.currentTarget.dataset.target
-			},
-			hideModal(e) {
-				this.modalName = null
-			},
-			Gridchange(e) {
-				this.gridCol = e.detail.value
-			},
-			Gridswitch(e) {
-				this.gridBorder = e.detail.value
-			},
-			MenuBorder(e) {
-				this.menuBorder = e.detail.value
-			},
-			MenuArrow(e) {
-				this.menuArrow = e.detail.value
-			},
-			MenuCard(e) {
-				this.menuCard = e.detail.value
-			},
-			SwitchSex(e) {
-				this.skin = e.detail.value
-			},
-
-			// ListTouch触摸开始
-			ListTouchStart(e) {
-				this.listTouchStart = e.touches[0].pageX
-			},
-
-			// ListTouch计算方向
-			ListTouchMove(e) {
-				this.listTouchDirection = e.touches[0].pageX - this.listTouchStart > 0 ? 'right' : 'left'
-			},
-
-			// ListTouch计算滚动
-			ListTouchEnd(e) {
-				if (this.listTouchDirection == 'left') {
-					this.modalName = e.currentTarget.dataset.target
-				} else {
-					this.modalName = null
+export default {
+	data() {
+		return {
+			currentTab: 0,
+			navbar: [
+				{
+					name: '进行中'
+				},
+				{
+					name: '已完成'
 				}
-				this.listTouchDirection = null
-			}
-		}
+			],
+			dataList: [
+				{
+					community:'海桐苑',
+					room_no: '6#301',
+					size: 30
+				},
+				{
+					community:'海桐苑',
+					room_no: '6#301',
+					size: 30
+				},
+				{
+					community:'海桐苑',
+					room_no: '6#301',
+					size: 30
+				},
+				{
+					community:'海桐苑',
+					room_no: '6#301',
+					size: 30
+				},
+				{
+					community:'海桐苑',
+					room_no: '6#301',
+					size: 30
+				},
+				{
+					community:'海桐苑',
+					room_no: '6#301',
+					size: 30
+				},
+			],
+			// 悬浮按钮
+			left: 0,
+			right: 10,
+			bottom: 60,
+			bgColor: '#5677fc',
+			btnList: []
+		};
+	},
+	methods: {
+		change(e) {
+			this.currentTab = e.index;
+		},
+		detail: function(e) {
+			this.tui.toast('click~');
+		},
+		onClick(e) {
+			uni.navigateTo({
+				url: '/pages/order/add'
+			});
+		},
+		
 	}
+};
 </script>
 
 <style>
-	.page {
-		height: 100Vh;
-		width: 100vw;
-	}
+.container {
+	padding: 40rpx 0 120rpx 0;
+	box-sizing: border-box;
+}
 
-	.page.show {
-		overflow: hidden;
-	}
+.header {
+	padding: 80rpx 90rpx 60rpx 90rpx;
+	box-sizing: border-box;
+}
 
-	.switch-sex::after {
-		content: "\e716";
-	}
+.title {
+	font-size: 34rpx;
+	color: #333;
+	font-weight: 500;
+}
 
-	.switch-sex::before {
-		content: "\e7a9";
-	}
+.sub-title {
+	font-size: 24rpx;
+	color: #7a7a7a;
+	padding-top: 18rpx;
+}
 
-	.switch-music::after {
-		content: "\e66a";
-	}
+.tui-primary {
+	color: #5677fc;
+}
 
-	.switch-music::before {
-		content: "\e6db";
-	}
+.tui-mtop {
+	margin-top: 80rpx;
+}
 
-	.add-action [class*="cuIcon-"] {
-		position: absolute;
-		bottom: 60px;
-		right: 20px;
-		border-radius: 50%;
-		width: 70upx;
-		line-height: 70upx;
-		font-size: 50upx;
+.tui-title {
+	padding: 50rpx 30rpx 30rpx 30rpx;
+	font-size: 32rpx;
+	color: #333;
+	box-sizing: border-box;
+	font-weight: bold;
+	clear: both;
+}
 
-	}
+.tui-grid-icon {
+	width: 64rpx;
+	height: 64rpx;
+	margin: 0 auto;
+	text-align: center;
+	vertical-align: middle;
+}
+.tui-grid-label {
+	display: block;
+	text-align: center;
+	font-weight: 400;
+	color: #333;
+	font-size: 28rpx;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-top: 10rpx;
+}
 </style>

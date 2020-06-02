@@ -1,15 +1,15 @@
 
-.page {
-	height: 100vh;
+page {
+	background: #ededed;
 }
-.add-action [class*="cuIcon-"] {
-	position: absolute;
-	bottom: 60px;
-	right: 20px;
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
-	width: 70rpx;
-	line-height: 70rpx;
-	font-size: 50rpx;
+.container {
+	padding-bottom: env(safe-area-inset-bottom);
 }
+.list-view {
+	padding: 40rpx 10rpx 0rpx 10rpx;
+}
+.tui-default {
+	padding: 20rpx 30rpx;
+}
+
 

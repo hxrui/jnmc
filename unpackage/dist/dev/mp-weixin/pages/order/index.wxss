@@ -1,31 +1,55 @@
 
-.page {
-	height: 100Vh;
-	width: 100vw;
+.container {
+	padding: 40rpx 0 120rpx 0;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
 }
-.page.show {
+.header {
+	padding: 80rpx 90rpx 60rpx 90rpx;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+}
+.title {
+	font-size: 34rpx;
+	color: #333;
+	font-weight: 500;
+}
+.sub-title {
+	font-size: 24rpx;
+	color: #7a7a7a;
+	padding-top: 18rpx;
+}
+.tui-primary {
+	color: #5677fc;
+}
+.tui-mtop {
+	margin-top: 80rpx;
+}
+.tui-title {
+	padding: 50rpx 30rpx 30rpx 30rpx;
+	font-size: 32rpx;
+	color: #333;
+	-webkit-box-sizing: border-box;
+	        box-sizing: border-box;
+	font-weight: bold;
+	clear: both;
+}
+.tui-grid-icon {
+	width: 64rpx;
+	height: 64rpx;
+	margin: 0 auto;
+	text-align: center;
+	vertical-align: middle;
+}
+.tui-grid-label {
+	display: block;
+	text-align: center;
+	font-weight: 400;
+	color: #333;
+	font-size: 28rpx;
+	white-space: nowrap;
 	overflow: hidden;
-}
-.switch-sex::after {
-	content: "\e716";
-}
-.switch-sex::before {
-	content: "\e7a9";
-}
-.switch-music::after {
-	content: "\e66a";
-}
-.switch-music::before {
-	content: "\e6db";
-}
-.add-action [class*="cuIcon-"] {
-	position: absolute;
-	bottom: 60px;
-	right: 20px;
-	-webkit-border-radius: 50%;
-	        border-radius: 50%;
-	width: 70rpx;
-	line-height: 70rpx;
-	font-size: 50rpx;
+	text-overflow: ellipsis;
+	margin-top: 10rpx;
 }
 

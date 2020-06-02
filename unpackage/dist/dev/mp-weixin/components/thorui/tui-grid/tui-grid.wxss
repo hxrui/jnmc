@@ -1,0 +1,23 @@
+
+.tui-grids.data-v-02297111 {
+	width: 100%;
+	position: relative;
+	overflow: hidden;
+}
+.tui-grids.data-v-02297111::after {
+	content: " ";
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 1px;
+	border-top: 1px solid #eaeef1;
+	-webkit-transform-origin: 0 0;
+	transform-origin: 0 0;
+	-webkit-transform: scaleY(0.5);
+	transform: scaleY(0.5);
+}
+.tui-border-top.data-v-02297111::after {
+	border-top: 0 !important;
+}
+

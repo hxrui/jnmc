@@ -1,14 +1,16 @@
 {
   "pages": [
-    "pages/tabbar/index/index",
-    "pages/tabbar/extend/extend",
-    "pages/tabbar/my/my"
+    "pages/message/index",
+    "pages/message/add",
+    "pages/order/index",
+    "pages/order/add",
+    "pages/product/index"
   ],
   "subPackages": [],
   "window": {
     "backgroundTextStyle": "dark",
     "navigationBarBackgroundColor": "#5677FC",
-    "navigationBarTitleText": "Thor UI",
+    "navigationBarTitleText": "迦南门窗",
     "navigationBarTextStyle": "white",
     "backgroundColor": "#fafafa",
     "backgroundColorTop": "#fafafa",
@@ -20,20 +22,20 @@
     "backgroundColor": "#FFFFFF",
     "list": [
       {
-        "pagePath": "pages/tabbar/index/index",
-        "text": "code",
+        "pagePath": "pages/message/index",
+        "text": "留言",
         "iconPath": "static/images/tabbar/code_gray.png",
         "selectedIconPath": "static/images/tabbar/code_active.png"
       },
       {
-        "pagePath": "pages/tabbar/extend/extend",
-        "text": "extend",
+        "pagePath": "pages/order/index",
+        "text": "订单",
         "iconPath": "static/images/tabbar/extend_gray.png",
         "selectedIconPath": "static/images/tabbar/extend_active.png"
       },
       {
-        "pagePath": "pages/tabbar/my/my",
-        "text": "thor",
+        "pagePath": "pages/product/index",
+        "text": "产品展示",
         "iconPath": "static/images/tabbar/thor_gray.png",
         "selectedIconPath": "static/images/tabbar/thor_active.png"
       }
