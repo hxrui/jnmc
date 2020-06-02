@@ -1,6 +1,6 @@
 
 .container {
-	padding: 40rpx 0 120rpx 0;
+	padding: 0 0 120rpx 0;
 	-webkit-box-sizing: border-box;
 	        box-sizing: border-box;
 }

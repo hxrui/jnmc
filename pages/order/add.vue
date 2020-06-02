@@ -4,20 +4,69 @@
 			<tui-list-cell :hover="false">
 				<view class="tui-line-cell">
 					<view class="tui-title">小区名称</view>
-					<input placeholder-class="tui-phcolor" class="tui-input" name="age" placeholder="请输入小区名称" maxlength="50" type="text" />
+					<input placeholder-class="tui-phcolor" class="tui-input" name="community" placeholder="请输入小区名称" maxlength="50" type="text" />
 				</view>
 			</tui-list-cell>
 
 			<tui-list-cell :hover="false">
 				<view class="tui-line-cell">
 					<view class="tui-title">户号</view>
-					<input placeholder-class="tui-phcolor" class="tui-input" name="age" placeholder="请输入楼号" maxlength="50" type="text" />
+					<input placeholder-class="tui-phcolor" class="tui-input" name="building" placeholder="请输入楼号" maxlength="50" type="text" />
 					#
-					<input placeholder-class="tui-phcolor" class="tui-input" name="age" placeholder="请输入室号" maxlength="50" type="text" />
+					<input placeholder-class="tui-phcolor" class="tui-input" name="unit" placeholder="请输入单元" maxlength="50" type="text" />
 				</view>
 			</tui-list-cell>
-			<tui-list-cell :hover="false"><view class="tui-title tui-top40">图片上传</view></tui-list-cell>
 
+			<tui-list-cell :hover="false">
+				<view class="tui-line-cell">
+					<view class="tui-title">联系人</view>
+					<input placeholder-class="tui-phcolor" class="tui-input" name="contact_man" placeholder="请输入联系人姓名" maxlength="50" type="text" />
+				</view>
+			</tui-list-cell>
+
+			<tui-list-cell :hover="false">
+				<view class="tui-line-cell">
+					<view class="tui-title">手机号</view>
+					<input placeholder-class="tui-phcolor" class="tui-input" name="mobile" placeholder="请输入手机号" maxlength="50" type="text" />
+				</view>
+			</tui-list-cell>
+
+			<tui-list-cell :hover="false">
+				<view class="tui-line-cell">
+					<view class="tui-title">订金</view>
+					<input placeholder-class="tui-phcolor" class="tui-input" v-model="status" name="deposit" placeholder="请输入金额,允许保留两位小数" maxlength="50"
+					 type="digit" />
+					元
+				</view>
+			</tui-list-cell>
+
+			<tui-list-cell :hover="false">
+				<view class="tui-line-cell">
+					<view class="tui-title" style="min-width: 0;">状态</view>
+					<radio-group class="radio-group" v-model="status" name="status">
+						<label class="tui-radio">
+							<radio :value="1" color="#5677fc" />进行中
+						</label>
+						<label class="tui-radio">
+							<radio :value="2" color="#5677fc" />完成未清账
+						</label>
+						<label class="tui-radio">
+							<radio :value="3" color="#5677fc" />已完成
+						</label>
+					</radio-group>
+				</view>
+			</tui-list-cell>
+
+			<tui-list-cell :hover="false">
+				<view class="tui-line-cell">
+					<view class="tui-title" style="height: 50px;">备注说明</view>
+					<textarea style="height: 50px;" class="tui-textarea" name="message" maxlength="500" placeholder-class="tui-phcolor-color" />
+
+					</view>
+			</tui-list-cell>
+			<tui-list-cell :hover="false"><view class="tui-title tui-top40">图片上传</view></tui-list-cell>
+			
+			<tui-list-cell :hover="false" :last="true">
 			<view class="tui-upload-box">
 				<view class="tui-upload-item" v-for="(item, index) in files" :key="index">
 					<image :src="item" class="tui-upload-img" @tap="previewImage" mode="aspectFill" :id="item"></image>
@@ -27,12 +76,6 @@
 					<tui-icon name="plus"></tui-icon>
 				</view>
 			</view>
-
-			<tui-list-cell :hover="false">
-				<view class="tui-line-cell">
-					<view class="tui-title">是否紧急</view>
-					<switch @change="handleSwitchUrgent" :class="isUrgent ? 'checked' : ''" :checked="isUrgent ? true : false"></switch>
-				</view>
 			</tui-list-cell>
 
 			<view class="tui-btn-box"><button class="tui-button-primary" hover-class="tui-button-hover" formType="submit" type="primary">提交</button></view>
@@ -48,7 +91,12 @@ export default {
 		return {
 			isUrgent: false,
 			message: undefined,
-			files: [] //最多上传9张图片
+			files: [],
+			status:1,
+			form:{
+				status:1,
+				deposit:999
+			}
 		};
 	},
 	methods: {
@@ -166,9 +214,9 @@ export default {
 }
 
 .radio-group {
-	margin-left: auto;
+	margin-left: 0;
 	transform: scale(0.8);
-	transform-origin: 100% center;
+	transform-origin: 100% left;
 	flex-shrink: 0;
 }
 
