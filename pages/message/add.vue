@@ -52,7 +52,7 @@ export default {
 					data: {
 						message: this.message,
 						is_urgent: this.isUrgent,
-						create_time: parseTime(Date.parse(new Date()), '{y}-{m}-{d} {h}:{i}'),
+						create_time: parseTime(Date.parse(new Date()), '{y}-{m}-{d} {h}:{i}:{s}'),
 						username: '天道酬勤'
 					},
 					success: res => {
@@ -60,6 +60,7 @@ export default {
 							title: '留言成功',
 							icon: 'success',
 							success: function() {
+								
 								setTimeout(function() {
 									uni.switchTab({
 										url: './index',

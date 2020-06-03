@@ -15,20 +15,19 @@
 		<tui-nomore v-if="!pullUpOn"></tui-nomore>
 		<!--加载loadding-->
 
-		<tui-fab :left="left" :right="right" :bottom="bottom" :bgColor="bgColor" :btnList="btnList" @click="onClick"></tui-fab>
+		<tui-fab :left="left" :right="right" :bottom="bottom" :bgColor="bgColor" :btnList="btnList" @click="gotoAddMessage"></tui-fab>
 		<tui-modal :show="modal" @click="handleDeleteMessage" @cancel="hideDeleteMessageModal" title="提示" content="确定删除该留言吗？"></tui-modal>
 	</view>
 </template>
 
 <script>
-	
 export default {
 	data() {
 		return {
 			page: 1,
 			limit: 10,
 			messageList: [],
-            // 悬浮按钮
+			// 悬浮按钮
 			left: 0,
 			right: 10,
 			bottom: 60,
@@ -43,34 +42,35 @@ export default {
 			id: undefined
 		};
 	},
-	created() {
-		this.loadData();
+	onLoad(){
+		this.page=1;
+		this.messageList=[]
+		this.getData();
 	},
 	methods: {
 		onReachBottom: function() {
 			if (!this.pullUpOn) return;
 			this.loadding = true;
-			this.loadData();
+			this.getData();
 		},
-		onClick(e) {
+		gotoAddMessage:function(e) {
 			uni.navigateTo({
 				url: '/pages/message/add'
 			});
 		},
-		loadData: function(e) {
-			let that = this;
+		getData: function(e) {
 			const db = wx.cloud.database({
 				env: 'jnmc-ronxp'
 			});
 			db.collection('message')
 				.orderBy('create_time', 'desc')
-				.skip((that.page - 1) * that.limit)
-				.limit(that.limit)
+				.skip((this.page - 1) * this.limit)
+				.limit(this.limit)
 				.get()
 				.then(response => {
 					for (let i = 0; i < response.data.length; i++) {
 						let data = response.data[i];
-						let message = new Object();
+						let message = {};
 						message.id = data._id;
 						message.img = {
 							url: '/static/images/news/avatar_1.jpg'
@@ -87,14 +87,13 @@ export default {
 						};
 						message.message = data.message;
 						message.is_urgent = data.is_urgent;
-						that.messageList.push(message);
+						this.messageList.push(message);
 					}
-
-					if (response.data.length < that.limit) {
-						that.loadding = false;
-						that.pullUpOn = false;
+					if (response.data.length < this.limit) {
+						this.loadding = false;
+						this.pullUpOn = false;
 					} else {
-						that.page = that.page + 1;
+						this.page = this.page + 1;
 					}
 				});
 		},
@@ -117,12 +116,11 @@ export default {
 					.doc(this.id)
 					.remove()
 					.then(response => {
-						console.log(response);
 						if (response.stats.removed === 1) {
 							this.tui.toast('删除留言成功');
-							this.page = 1;
-							this.messageList = [];
-							this.loadData();
+							this.page=1;
+							this.messageList=[]
+							this.getData();
 						}
 					})
 					.catch(res => {
@@ -151,5 +149,4 @@ page {
 .tui-default {
 	padding: 20rpx 30rpx;
 }
-
 </style>

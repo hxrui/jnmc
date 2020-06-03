@@ -2256,9 +2256,9 @@ to {
 	        flex: 1;
 }
 .radio-group {
-	margin-left: 0;
-	-webkit-transform: scale(0.8);
-	        transform: scale(0.8);
+	margin-left: -44px;
+	-webkit-transform: scale(0.7);
+	        transform: scale(0.7);
 	-webkit-transform-origin: 100% left;
 	        transform-origin: 100% left;
 	-webkit-flex-shrink: 0;
@@ -2274,5 +2274,11 @@ to {
 	padding: 40rpx 50rpx;
 	-webkit-box-sizing: border-box;
 	        box-sizing: border-box;
+}
+.tui-upload-item {
+	margin-right: 10px !important;
+}
+.tui-list-cell {
+	padding: 10px 5px !important;
 }
 

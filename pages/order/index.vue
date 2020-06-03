@@ -1,174 +1,297 @@
 <template>
 	<view class="container">
-		<tui-tabs :tabs="navbar" :currentTab="currentTab > 2 ? 0 : currentTab" @change="change" itemWidth="50%">
-		</tui-tabs>
-		<view v-if="currentTab === 0">
+		<tui-tabs :tabs="navbar" :currentTab="status > 3 ? 0 : status" @change="change" itemWidth="50%"></tui-tabs>
+		<view v-if="status === 0">
 			<tui-grid>
-				<block v-for="(item, index) in dataList" :key="index">
-					<tui-grid-item :cell="2" @click="detail">
+				<block v-for="(item, index) in orderList" :key="index">
+					<tui-grid-item :cell="2" @click="gotoDetail(item._id)" @longpress="showOperation(item._id)">
 						<text class="tui-grid-label">{{ item.community }}</text>
-						<text class="tui-grid-label">{{ item.room_no}}</text>
+						<text class="tui-grid-label">{{ item.building }}#{{ item.unit }}</text>
 					</tui-grid-item>
 				</block>
 			</tui-grid>
+			<tui-no-data v-if="orderList.length === 0" :fixed="false" imgUrl="/static/images/toast/img_nodata.png">暂无数据</tui-no-data>
 		</view>
-		<view v-if="currentTab === 1">2</view>
-		<view v-if="currentTab === 2">3</view>
+		<view v-if="status === 1">
+			<tui-grid>
+				<block v-for="(item, index) in orderList" :key="index">
+					<tui-grid-item :cell="2" @click="gotoDetail(item._id)"  @longpress="showOperation(item._id)">
+						<text class="tui-grid-label">{{ item.community }}</text>
+						<text class="tui-grid-label">{{ item.building }}#{{ item.unit }}</text>
+					</tui-grid-item>
+				</block>
+			</tui-grid>
+			<tui-no-data v-if="orderList.length === 0" :fixed="false" imgUrl="/static/images/toast/img_nodata.png">暂无数据</tui-no-data>
+		</view>
+		<view v-if="status === 2">
+			<tui-grid>
+				<block v-for="(item, index) in orderList" :key="index">
+					<tui-grid-item :cell="2" @click="gotoDetail(item._id)" @longpress="showOperation(item._id)">
+						<text class="tui-grid-label">{{ item.community }}</text>
+						<text class="tui-grid-label">{{ item.building }}#{{ item.unit }}</text>
+					</tui-grid-item>
+				</block>
+			</tui-grid>
+			<tui-no-data v-if="orderList.length === 0" :fixed="false" imgUrl="/static/images/toast/img_nodata.png">暂无数据</tui-no-data>
+		</view>
+		<view v-if="status === 3">
+			<tui-grid>
+				<block v-for="(item, index) in orderList" :key="index">
+					<tui-grid-item :cell="2" @click="gotoDetail(item._id)"  @longpress="showOperation(item._id)">
+						<text class="tui-grid-label">{{ item.community }}</text>
+						<text class="tui-grid-label">{{ item.building }}#{{ item.unit }}</text>
+					</tui-grid-item>
+				</block>
+			</tui-grid>
+			<tui-no-data v-if="orderList.length === 0" :fixed="false" imgUrl="/static/images/toast/img_nodata.png">暂无数据</tui-no-data>
+		</view>
 		<tui-fab :left="left" :right="right" :bottom="bottom" :bgColor="bgColor" :btnList="btnList" @click="onClick"></tui-fab>
+		<tui-modal :show="operationModal" @click="handleOperation" @cancel="hideOperation" content="请选择操作" :button="buttonList"></tui-modal>
 	</view>
 </template>
 
 <script>
-	export default {
-		data() {
-			return {
-				currentTab: 0,
-				navbar: [{
-						name: '进行中'
-					},
-					{
-						name: '完成未清账'
-					},
-					{
-						name: '已完成'
-					}
-				],
-				dataList: [{
-						community: '海桐苑',
-						room_no: '6#301',
-						size: 30
-					},
-					{
-						community: '海桐苑',
-						room_no: '6#301',
-						size: 30
-					},
-					{
-						community: '海桐苑',
-						room_no: '6#301',
-						size: 30
-					},
-					{
-						community: '海桐苑',
-						room_no: '6#301',
-						size: 30
-					},
-					{
-						community: '海桐苑',
-						room_no: '6#301',
-						size: 30
-					},
-					{
-						community: '海桐苑',
-						room_no: '6#301',
-						size: 30
-					},
-				],
-				// 悬浮按钮
-				left: 0,
-				right: 10,
-				bottom: 60,
-				bgColor: '#5677fc',
-				btnList: [{
-					bgColor: "#64B532",
-					text: "添加",
-					fontSize: 28,
-					color: "#fff"
-				}, {
-					bgColor: "#16C2C2",
-					text: "补单",
-					fontSize: 28,
-					color: "#fff"
-				}, ]
-			};
-		},
-		methods: {
-			change(e) {
-				this.currentTab = e.index;
-			},
-			detail: function(e) {
-				this.tui.toast('click~');
-			},
-			onClick(e) {
-				let index = e.index
-				switch (index) {
-					case 0:
-						uni.navigateTo({
-							url: '/pages/order/add'
-						});
-						break;
-					case 1:
-						uni.navigateTo({
-							url: '/pages/order/add'
-						});
-						break;
-					default:
-						break;
-
+export default {
+	data() {
+		return {
+			status: 0,
+			navbar: [
+				{
+					name: '未开始'
+				},
+				{
+					name: '进行中'
+				},
+				{
+					name: '完成未清账'
+				},
+				{
+					name: '已完成'
 				}
+			],
+			// 悬浮按钮
+			left: 0,
+			right: 10,
+			bottom: 60,
+			bgColor: '#5677fc',
+			btnList: [
+				{
+					bgColor: '#64B532',
+					text: '添加',
+					fontSize: 28,
+					color: '#fff'
+				},
+				{
+					bgColor: '#16C2C2',
+					text: '补单',
+					fontSize: 28,
+					color: '#fff'
+				}
+			],
+			orderList: [],
+			page: 1,
+			limit: 20,
+			operationModal: false,
+			buttonList: [
+				{
+					text: '修改',
+					type: 'green',
+					plain: true
+				},
+				{
+					text: '删除',
+					type: 'red',
+					plain: true
+				},
+				{
+					text: '取消',
+					plain: true
+				}
+			],
+			id: undefined
+		};
+	},
+	onLoad() {
+		this.page = 1;
+		this.orderList = [];
+		this.getData();
+	},
+	methods: {
+		showOperation: function(id) {
+			this.operationModal = true;
+			this.id = id;
+		},
+		hideOperation: function() {
+			this.operationModal = false;
+		},
+		handleOperation: function(e) {
+			let index = e.index;
+			switch (index) {
+				case 0:
+					this.hideOperation();
+					uni.navigateTo({
+						url: '/pages/order/detail?type=edit&id=' + this.id
+					});
+					break;
+				case 1:
+					this.hideOperation();
+					const db = wx.cloud.database({
+						env: 'jnmc-ronxp'
+					});
+					// 删除订单图片
+					db.collection('order')
+						.doc(this.id)
+						.field({ files: true })
+						.get()
+						.then(response => {
+							const fileIDS = response.data.files.map(item => item.id);
+							if (fileIDS && fileIDS.length > 0) {
+								wx.cloud.deleteFile({
+									fileList: fileIDS,
+									success: res => {
+										console.log('删除订单图片结果：' + res);
+									},
+									fail: err => {
+										console.log(err);
+									}
+								});
+							}
+						}).catch(res => {
+							console.log(res);
+						});
+					db.collection('order')
+						.doc(this.id)
+						.remove()
+						.then(response => {
+							if (response.stats.removed > 0) {
+								this.tui.toast('删除订单成功');
 
+								this.page = 1;
+								this.orderList = [];
+								this.getData();
+							} else {
+								this.tui.toast('删除订单失败');
+							}
+						})
+						.catch(res => {
+							console.log(res);
+						});
+					break;
+				default:
+					this.hideOperation();
+					break;
+			}
+		},
+		getData: function() {
+			const db = wx.cloud.database({
+				env: 'jnmc-ronxp'
+			});
+			db.collection('order')
+				.field({
+					community: true,
+					building: true,
+					unit: true
+				})
+				.where({
+					status: this.status
+				})
+				.orderBy('create_time', 'desc')
+				.skip((this.page - 1) * this.limit)
+				.limit(this.limit)
+				.get()
+				.then(response => {
+					this.orderList = response.data;
+				});
+		},
+		change(e) {
+			this.status = e.index;
+			this.page = 1;
+			this.orderList = [];
+			this.getData();
+		},
+		gotoDetail: function(id) {
+			uni.navigateTo({
+				url: '/pages/order/detail?type=detail&id=' + id
+			});
+		},
+		onClick(e) {
+			let index = e.index;
+			switch (index) {
+				case 0:
+					uni.navigateTo({
+						url: '/pages/order/detail?type=add'
+					});
+					break;
+				case 1:
+					uni.navigateTo({
+						url: '/pages/order/detail?type=fill'
+					});
+					break;
+				default:
+					break;
 			}
 		}
-	};
+	}
+};
 </script>
 
 <style>
-	.container {
-		padding: 0 0 120rpx 0;
-		box-sizing: border-box;
-	}
+.container {
+	padding: 0 0 120rpx 0;
+	box-sizing: border-box;
+}
 
-	.header {
-		padding: 80rpx 90rpx 60rpx 90rpx;
-		box-sizing: border-box;
-	}
+.header {
+	padding: 80rpx 90rpx 60rpx 90rpx;
+	box-sizing: border-box;
+}
 
-	.title {
-		font-size: 34rpx;
-		color: #333;
-		font-weight: 500;
-	}
+.title {
+	font-size: 34rpx;
+	color: #333;
+	font-weight: 500;
+}
 
-	.sub-title {
-		font-size: 24rpx;
-		color: #7a7a7a;
-		padding-top: 18rpx;
-	}
+.sub-title {
+	font-size: 24rpx;
+	color: #7a7a7a;
+	padding-top: 18rpx;
+}
 
-	.tui-primary {
-		color: #5677fc;
-	}
+.tui-primary {
+	color: #5677fc;
+}
 
-	.tui-mtop {
-		margin-top: 80rpx;
-	}
+.tui-mtop {
+	margin-top: 80rpx;
+}
 
-	.tui-title {
-		padding: 50rpx 30rpx 30rpx 30rpx;
-		font-size: 32rpx;
-		color: #333;
-		box-sizing: border-box;
-		font-weight: bold;
-		clear: both;
-	}
+.tui-title {
+	padding: 50rpx 30rpx 30rpx 30rpx;
+	font-size: 32rpx;
+	color: #333;
+	box-sizing: border-box;
+	font-weight: bold;
+	clear: both;
+}
 
-	.tui-grid-icon {
-		width: 64rpx;
-		height: 64rpx;
-		margin: 0 auto;
-		text-align: center;
-		vertical-align: middle;
-	}
+.tui-grid-icon {
+	width: 64rpx;
+	height: 64rpx;
+	margin: 0 auto;
+	text-align: center;
+	vertical-align: middle;
+}
 
-	.tui-grid-label {
-		display: block;
-		text-align: center;
-		font-weight: 400;
-		color: #333;
-		font-size: 28rpx;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		margin-top: 10rpx;
-	}
+.tui-grid-label {
+	display: block;
+	text-align: center;
+	font-weight: 400;
+	color: #333;
+	font-size: 28rpx;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-top: 10rpx;
+}
 </style>

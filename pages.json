@@ -13,7 +13,7 @@
 			"style": {}
 		},
 		{
-			"path": "pages/order/add",
+			"path": "pages/order/detail",
 			"style": {}
 		},
 		
@@ -21,8 +21,11 @@
 			"path": "pages/product/index",
 			"style": {}
 		}
-
-	],
+	    ,{
+            "path" : "pages/product/detail",
+            "style" : {}
+        }
+    ],
 	"easycom": {
 		"autoscan": true,
 		"custom": {

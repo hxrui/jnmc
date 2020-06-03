@@ -3,8 +3,9 @@
     "pages/message/index",
     "pages/message/add",
     "pages/order/index",
-    "pages/order/add",
-    "pages/product/index"
+    "pages/order/detail",
+    "pages/product/index",
+    "pages/product/detail"
   ],
   "subPackages": [],
   "window": {
@@ -41,6 +42,5 @@
       }
     ]
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap38.json"
+  "usingComponents": {}
 }
