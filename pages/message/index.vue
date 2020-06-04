@@ -34,11 +34,11 @@ export default {
 			bgColor: '#5677fc',
 			btnList: [],
 
+			// 上拉刷新
 			loadding: false,
 			pullUpOn: true,
-
+			
 			modal: false,
-
 			id: undefined
 		};
 	},
@@ -93,6 +93,7 @@ export default {
 						this.loadding = false;
 						this.pullUpOn = false;
 					} else {
+						this.pullUpOn=true;
 						this.page = this.page + 1;
 					}
 				});

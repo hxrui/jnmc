@@ -1,6 +1,15 @@
 
-.page {
-	height: 100vh;
+page {
+	background: #ededed;
+}
+.container {
+	padding-bottom: env(safe-area-inset-bottom);
+}
+.cu-item {
+	margin: 10px;
+	background-size: 100% 100%;
+	-webkit-border-radius: 6px;
+	        border-radius: 6px;
 }
 .cardTitle {
 	color: #fff;

@@ -120,7 +120,7 @@
 				</view>
 			</tui-list-cell>
 
-			<tui-list-cell :hover="false"><view class="tui-title tui-top40">图片列表</view></tui-list-cell>
+			<tui-list-cell :hover="false"><view class="tui-title tui-top40">订单图片</view></tui-list-cell>
 			<tui-list-cell :hover="false" :last="true">
 				<view class="tui-upload-box">
 					<view class="tui-upload-item" v-for="(item, index) in form.files" :key="index">
@@ -352,7 +352,7 @@ export default {
 											success: result => {
 												if (result && result.fileList) {
 													result.fileList.forEach(item => {
-														that.form.files.push({ id: item.fileID, url: item.tempFileURL, tempUrl: tempFilePath });
+														that.form.files.push({ id: item.fileID, url: item.tempFileURL });
 													});
 												}
 											},

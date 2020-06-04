@@ -1,68 +1,180 @@
-<template name="products">
-	<view>
-		<scroll-view scroll-y class="page">
-			<cu-custom bgImage="https://image.weilanwl.com/color2.0/plugin/cjkz2329.jpg">
-				<block slot="content">
-					<image src="/static/cjkz.png" mode="aspectFill" style="width: 240upx;height: 60upx;"></image>
-				</block>
-			</cu-custom>
-			<view class="cu-card">
-				<view class="cu-item bg-img shadow-blur" :style="[{backgroundImage:'url('+item.img+')'}]" @tap="toChild" :data-url="item.url"
-				 v-for="(item,index) in list" :key="index">
-					<view class="cardTitle">
-						{{item.title}}
-					</view>
+<template>
+	<view class="container">
+		<view class="cu-card">
+			<view class="cu-item bg-img shadow-blur" :style="[{backgroundImage:'url('+ ((item.files&&item.files.length>0)? item.files[0].url:'')+')'}]"
+			 @tap="gotoDetail(item._id)" v-for="(item,index) in productList" :key="index" @longpress="showOperation(item._id)">
+				<view class="cardTitle">
+					{{item.name}}
 				</view>
 			</view>
-			<view class="cu-tabbar-height"></view>
-		</scroll-view>
+		</view>
+		<tui-no-data v-if="productList.length === 0" :fixed="false" imgUrl="/static/images/toast/img_nodata.png">暂无数据</tui-no-data>
+		<tui-fab :left="left" :right="right" :bottom="bottom" :bgColor="bgColor" :btnList="btnList" @click="gotoAddProduct"></tui-fab>
+		<tui-modal :show="operationModal" @click="handleOperation" @cancel="hideOperation" content="请选择操作" :button="buttonList"></tui-modal>
 	</view>
 </template>
 
 <script>
 	export default {
-		name: "components",
 		data() {
 			return {
-				StatusBar: this.StatusBar,
-				CustomBar: this.CustomBar,
-				list: [{
-						title: '门1',
-						img: 'https://image.weilanwl.com/color2.0/plugin/sylb2244.jpg',
-						url: '../plugin/indexes'
+				// 悬浮按钮
+				left: 0,
+				right: 10,
+				bottom: 60,
+				bgColor: '#5677fc',
+				btnList: [],
+				// 分页数据
+				page: 1,
+				limit: 10,
+				productList: [],
+				loadding: false,
+				pullUpOn: true,
+				operationModal: false,
+				buttonList: [{
+						text: '修改',
+						type: 'green',
+						plain: true
 					},
 					{
-						title: '门2',
-						img: 'https://image.weilanwl.com/color2.0/plugin/wdh2236.jpg',
-						url: '../plugin/animation'
+						text: '删除',
+						type: 'red',
+						plain: true
 					},
 					{
-						title: '窗1',
-						img: 'https://image.weilanwl.com/color2.0/plugin/qpct2148.jpg',
-						url: '../plugin/drawer'
-					},
-					{
-						title: '窗2',
-						img: 'https://image.weilanwl.com/color2.0/plugin/qpczdh2307.jpg',
-						url: '../plugin/verticalnav'
+						text: '取消',
+						plain: true
 					}
-				]
+				],
+				id: undefined,
 			};
 		},
+		onLoad() {
+			this.page = 1;
+			this.productList = [];
+			this.getData();
+
+		},
 		methods: {
-			toChild(e) {
+			getData: function() {
+				const db = wx.cloud.database({
+					env: 'jnmc-ronxp'
+				});
+				db.collection('product')
+					.orderBy('create_time', 'desc')
+					.skip((this.page - 1) * this.limit)
+					.limit(this.limit)
+					.get()
+					.then(response => {
+						this.productList = response.data
+						if (response.data.length < this.limit) {
+							this.loadding = false;
+							this.pullUpOn = false;
+						} else {
+							this.page = this.page + 1;
+						}
+					});
+			},
+			gotoDetail: function(id) {
 				uni.navigateTo({
-					url: e.currentTarget.dataset.url
-				})
+					url: '/pages/product/detail?type=detail&id=' + id
+				});
+			},
+			gotoAddProduct: function() {
+				uni.navigateTo({
+					url: '/pages/product/detail?type=add'
+				});
+			},
+			showOperation: function(id) {
+				this.operationModal = true;
+				this.id = id;
+			},
+			hideOperation: function() {
+				this.operationModal = false;
+			},
+			handleOperation: function(e) {
+				let index = e.index;
+				switch (index) {
+					case 0:
+						this.hideOperation();
+						uni.navigateTo({
+							url: '/pages/product/detail?type=edit&id=' + this.id
+						});
+						break;
+					case 1:
+						this.hideOperation();
+						const db = wx.cloud.database({
+							env: 'jnmc-ronxp'
+						});
+						// 删除产品图片
+						db.collection('product')
+							.doc(this.id)
+							.field({
+								files: true
+							})
+							.get()
+							.then(response => {
+								console.log(response.data)
+								const fileIDS = response.data.files.map(item => item.id);
+								if (fileIDS && fileIDS.length > 0) {
+									wx.cloud.deleteFile({
+										fileList: fileIDS,
+										success: res => {
+											console.log('删除产品图片结果：' + res);
+										},
+										fail: err => {
+											console.log("删除产品图片结果："+err);
+										}
+									});
+								}
+								// 删除产品
+								db.collection('product')
+									.doc(this.id)
+									.remove()
+									.then(response => {
+										if (response.stats.removed > 0) {
+											this.tui.toast('删除产品成功');
+								
+											this.page = 1;
+											this.productList = [];
+											this.getData();
+										} else {
+											this.tui.toast('删除产品失败');
+										}
+									})
+									.catch(res => {
+										console.log('删除产品失败:'+res);
+									});
+							}).catch(res => {
+								console.log(res);
+							});
+					
+						break;
+					default:
+						this.hideOperation();
+						break;
+				}
 			},
 		},
 	}
 </script>
 
 <style>
-	.page {
-		height: 100vh;
+	page {
+		background: #ededed;
 	}
+
+
+	.container {
+		padding-bottom: env(safe-area-inset-bottom);
+	}
+
+	.cu-item {
+		margin: 10px;
+		background-size: 100% 100%;
+		border-radius: 6px;
+	}
+
 
 	.cardTitle {
 		color: #fff;

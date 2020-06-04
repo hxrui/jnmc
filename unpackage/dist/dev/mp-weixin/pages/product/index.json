@@ -1,3 +1,7 @@
 {
-  "usingComponents": {}
+  "usingComponents": {
+    "tui-no-data": "/components/thorui/tui-no-data/tui-no-data",
+    "tui-fab": "/components/thorui/tui-fab/tui-fab",
+    "tui-modal": "/components/thorui/tui-modal/tui-modal"
+  }
 }

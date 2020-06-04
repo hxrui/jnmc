@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///C:/projects/wechat/jnmc/main.js"],"names":["createPage","Page"],"mappings":";;;;;;;;;;kDAAA;AACA;AACA,2F;AACAA,UAAU,CAACC,YAAD,CAAV,C","file":"pages/product/add.js","sourcesContent":["import 'uni-pages';\nimport Vue from 'vue'\nimport Page from './pages/product/add.vue'\ncreatePage(Page)"],"sourceRoot":""}
