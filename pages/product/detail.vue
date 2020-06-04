@@ -22,12 +22,12 @@
 					<view class="tui-upload-item" v-for="(item, index) in form.files" :key="index">
 						<image :src="item.url" class="tui-upload-img" @tap="previewImage" mode="aspectFill" :id="item.url"></image>
 						<view class="tui-upload-del">
-							<tui-icon color="#ed3f14" :size="18" name="close-fill" :index="index" @click="deleteImage(item.id)" ></tui-icon>
+							<tui-icon color="#ed3f14" :size="18" name="close-fill" :index="index" @click="deleteImage(item.id)"  v-if="type!=='detail'"></tui-icon>
 						</view>
 					</view>
 					<view
 						class="tui-upload-item tui-upload-add"
-						v-if="form.files.length < 9"
+						v-if="form.files.length < 9 && type!=='detail'"
 						hover-class="tui-opcity"
 						:hover-stay-time="150"
 						@tap="chooseImage"
@@ -45,7 +45,7 @@
 <script>
 const form = require('@/components/common/tui-validation/tui-validation.js');
 var { parseTime } = require('wx-tool');
-
+import { mapState } from 'vuex';
 export default {
 	data() {
 		return {
@@ -60,6 +60,7 @@ export default {
 			id: undefined
 		};
 	},
+	computed: mapState(['nickName']),
 	onLoad: function(params) {
 		this.type = params.type;
 		if (this.type==='detail' || this.type === 'edit') {
@@ -104,7 +105,7 @@ export default {
 				let db = wx.cloud.database({
 					env: 'jnmc-ronxp'
 				});
-
+				
 				if (this.type === 'edit') {
 					db.collection('product')
 						.doc(this.id)
@@ -134,7 +135,7 @@ export default {
 						});
 				} else {
 					this.form.create_time = parseTime(Date.parse(new Date()), '{y}-{m}-{d} {h}:{i}:{s}');
-					this.form.create_by = '天道酬勤';
+					this.form.create_by = this.nickName;
 					db.collection('product').add({
 						data: this.form,
 						success: res => {

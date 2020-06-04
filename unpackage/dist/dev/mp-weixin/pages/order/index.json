@@ -1,9 +1,14 @@
 {
+  "navigationBarTitleText": "订单列表",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
   "usingComponents": {
     "tui-tabs": "/components/thorui/tui-tabs/tui-tabs",
     "tui-grid": "/components/thorui/tui-grid/tui-grid",
     "tui-grid-item": "/components/thorui/tui-grid-item/tui-grid-item",
     "tui-no-data": "/components/thorui/tui-no-data/tui-no-data",
+    "tui-loadmore": "/components/thorui/tui-loadmore/tui-loadmore",
+    "tui-nomore": "/components/thorui/tui-nomore/tui-nomore",
     "tui-fab": "/components/thorui/tui-fab/tui-fab",
     "tui-modal": "/components/thorui/tui-modal/tui-modal"
   }

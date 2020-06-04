@@ -149,7 +149,7 @@
 <script>
 const form = require('@/components/common/tui-validation/tui-validation.js');
 var { parseTime } = require('wx-tool');
-
+import { mapState } from 'vuex';
 export default {
 	data() {
 		return {
@@ -190,6 +190,7 @@ export default {
 			id: undefined
 		};
 	},
+	computed: mapState(['nickName', 'avatarUrl']),
 	onLoad: function(params) {
 		this.type = params.type;
 		if (this.type === 'detail' || this.type === 'edit') {
@@ -294,7 +295,7 @@ export default {
 						});
 				} else {
 					this.form.create_time = parseTime(Date.parse(new Date()), '{y}-{m}-{d} {h}:{i}:{s}');
-					this.form.create_by = '天道酬勤';
+					this.form.create_by = this.nickName;
 					db.collection('order').add({
 						data: this.form,
 						success: res => {

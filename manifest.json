@@ -44,10 +44,15 @@
     "mp-weixin" : {
         "appid" : "wx66e3bba8c87608f9",
         "setting" : {
-            "urlCheck" : true,
+            "urlCheck" : false,
             "es6" : true,
             "postcss" : true,
             "minified" : true
+        },
+        "permission" : {
+            "scope.userLocation" : {
+                "desc" : "你的位置信息将用于定位效果展示"
+            }
         }
     }
 }

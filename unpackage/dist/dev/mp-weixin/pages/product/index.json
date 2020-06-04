@@ -1,5 +1,10 @@
 {
+  "navigationBarTitleText": "产品展示",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50,
   "usingComponents": {
+    "tui-loadmore": "/components/thorui/tui-loadmore/tui-loadmore",
+    "tui-nomore": "/components/thorui/tui-nomore/tui-nomore",
     "tui-no-data": "/components/thorui/tui-no-data/tui-no-data",
     "tui-fab": "/components/thorui/tui-fab/tui-fab",
     "tui-modal": "/components/thorui/tui-modal/tui-modal"

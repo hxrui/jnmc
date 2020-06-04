@@ -5,7 +5,9 @@
     "pages/order/index",
     "pages/order/detail",
     "pages/product/index",
-    "pages/product/detail"
+    "pages/product/detail",
+    "pages/my/index",
+    "pages/index/map"
   ],
   "subPackages": [],
   "window": {
@@ -25,22 +27,33 @@
       {
         "pagePath": "pages/message/index",
         "text": "留言",
-        "iconPath": "static/images/tabbar/code_gray.png",
-        "selectedIconPath": "static/images/tabbar/code_active.png"
+        "iconPath": "static/images/tabbar/message.png",
+        "selectedIconPath": "static/images/tabbar/message_active.png"
       },
       {
         "pagePath": "pages/order/index",
         "text": "订单",
-        "iconPath": "static/images/tabbar/extend_gray.png",
-        "selectedIconPath": "static/images/tabbar/extend_active.png"
+        "iconPath": "static/images/tabbar/order.png",
+        "selectedIconPath": "static/images/tabbar/order_active.png"
       },
       {
         "pagePath": "pages/product/index",
-        "text": "产品展示",
-        "iconPath": "static/images/tabbar/thor_gray.png",
-        "selectedIconPath": "static/images/tabbar/thor_active.png"
+        "text": "产品",
+        "iconPath": "static/images/tabbar/product.png",
+        "selectedIconPath": "static/images/tabbar/product_active.png"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "text": "我的",
+        "iconPath": "static/images/tabbar/my.png",
+        "selectedIconPath": "static/images/tabbar/my_active.png"
       }
     ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于定位效果展示"
+    }
   },
   "usingComponents": {}
 }

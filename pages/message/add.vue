@@ -22,6 +22,7 @@
 <script>
 const form = require('@/components/common/tui-validation/tui-validation.js');
 var { parseTime } = require('wx-tool');
+import { mapState } from 'vuex';
 
 export default {
 	data() {
@@ -30,6 +31,7 @@ export default {
 			message: undefined
 		};
 	},
+	computed: mapState(['nickName', 'avatarUrl']),
 	methods: {
 		formSubmit: function(e) {
 			//表单规则
@@ -53,14 +55,14 @@ export default {
 						message: this.message,
 						is_urgent: this.isUrgent,
 						create_time: parseTime(Date.parse(new Date()), '{y}-{m}-{d} {h}:{i}:{s}'),
-						username: '天道酬勤'
+						username: this.nickName,
+						avatar_url: this.avatarUrl
 					},
 					success: res => {
 						uni.showToast({
 							title: '留言成功',
 							icon: 'success',
 							success: function() {
-								
 								setTimeout(function() {
 									uni.switchTab({
 										url: './index',
@@ -94,47 +96,45 @@ export default {
 
 <style>
 .container {
-		padding: 20rpx 0 50rpx 0;
-	}
+	padding: 20rpx 0 50rpx 0;
+}
 
-	.tui-line-cell {
-		width: 100%;
-		box-sizing: border-box;
-		display: flex;
-		align-items: center;
-	}
+.tui-line-cell {
+	width: 100%;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+}
 
-	.tui-title {
-		line-height: 32rpx;
-		min-width: 120rpx;
-		flex-shrink: 0;
-	}
+.tui-title {
+	line-height: 32rpx;
+	min-width: 120rpx;
+	flex-shrink: 0;
+}
 
-	.tui-input {
-		font-size: 32rpx;
-		color: #333;
-		padding-left: 20rpx;
-		flex: 1;
-	}
+.tui-input {
+	font-size: 32rpx;
+	color: #333;
+	padding-left: 20rpx;
+	flex: 1;
+}
 
-	.radio-group {
-		margin-left: auto;
-		transform: scale(0.8);
-		transform-origin: 100% center;
-		flex-shrink: 0;
-	}
+.radio-group {
+	margin-left: auto;
+	transform: scale(0.8);
+	transform-origin: 100% center;
+	flex-shrink: 0;
+}
 
-	.tui-radio {
-		display: inline-block;
-		padding-left: 28rpx;
-		font-size: 36rpx;
-		vertical-align: middle;
-	}
+.tui-radio {
+	display: inline-block;
+	padding-left: 28rpx;
+	font-size: 36rpx;
+	vertical-align: middle;
+}
 
-
-	.tui-btn-box {
-		padding: 40rpx 50rpx;
-		box-sizing: border-box;
-	}
-
+.tui-btn-box {
+	padding: 40rpx 50rpx;
+	box-sizing: border-box;
+}
 </style>

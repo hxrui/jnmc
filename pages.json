@@ -1,8 +1,14 @@
 {
-	"pages": [
-		{
+	"pages": [{
 			"path": "pages/message/index",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "留言板",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"bounce": "vertical"
+				}
+			}
 		},
 		{
 			"path": "pages/message/add",
@@ -10,22 +16,43 @@
 		},
 		{
 			"path": "pages/order/index",
-			"style": {}
+			"style": {
+				"navigationBarTitleText": "订单列表",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"bounce": "vertical"
+				}
+			}
 		},
 		{
 			"path": "pages/order/detail",
 			"style": {}
 		},
-		
+
 		{
 			"path": "pages/product/index",
+			"style": {
+				"navigationBarTitleText": "产品展示",
+				"enablePullDownRefresh": true,
+				"onReachBottomDistance": 50,
+				"app-plus": {
+					"bounce": "vertical"
+				}
+			}
+		}, {
+			"path": "pages/product/detail",
+			"style": {}
+		}, {
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "个人中心"
+			}
+		}, {
+			"path": "pages/index/map",
 			"style": {}
 		}
-	    ,{
-            "path" : "pages/product/detail",
-            "style" : {}
-        }
-    ],
+	],
 	"easycom": {
 		"autoscan": true,
 		"custom": {
@@ -48,20 +75,26 @@
 		"list": [{
 				"pagePath": "pages/message/index",
 				"text": "留言",
-				"iconPath": "static/images/tabbar/code_gray.png",
-				"selectedIconPath": "static/images/tabbar/code_active.png"
+				"iconPath": "static/images/tabbar/message.png",
+				"selectedIconPath": "static/images/tabbar/message_active.png"
 			},
 			{
 				"pagePath": "pages/order/index",
 				"text": "订单",
-				"iconPath": "static/images/tabbar/extend_gray.png",
-				"selectedIconPath": "static/images/tabbar/extend_active.png"
+				"iconPath": "static/images/tabbar/order.png",
+				"selectedIconPath": "static/images/tabbar/order_active.png"
 			},
 			{
 				"pagePath": "pages/product/index",
-				"text": "产品展示",
-				"iconPath": "static/images/tabbar/thor_gray.png",
-				"selectedIconPath": "static/images/tabbar/thor_active.png"
+				"text": "产品",
+				"iconPath": "static/images/tabbar/product.png",
+				"selectedIconPath": "static/images/tabbar/product_active.png"
+			},
+			{
+				"pagePath": "pages/my/index",
+				"text": "我的",
+				"iconPath": "static/images/tabbar/my.png",
+				"selectedIconPath": "static/images/tabbar/my_active.png"
 			}
 		]
 	}

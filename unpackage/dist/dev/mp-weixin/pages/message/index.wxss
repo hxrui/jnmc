@@ -1,7 +1,4 @@
 
-page {
-	background: #ededed;
-}
 .container {
 	padding-bottom: env(safe-area-inset-bottom);
 }

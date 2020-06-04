@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
 		<view class="list-view" v-for="(item, index) in messageList" :key="index">
-			<tui-card :image="item.img" :title="item.title" :tag="item.tag" @longclick="showDeleteMessageModal(item.id)">
+			<tui-card :image="item.img" :title="item.title" :tag="item.tag" @longtap="showDeleteMessageModal(item.id)">
 				<template v-slot:body>
 					<view class="tui-default">{{ item.message }}</view>
 				</template>
@@ -10,17 +10,21 @@
 				</template>
 			</tui-card>
 		</view>
+
 		<!--加载loadding-->
 		<tui-loadmore v-if="loadding"></tui-loadmore>
 		<tui-nomore v-if="!pullUpOn"></tui-nomore>
 		<!--加载loadding-->
 
+		<tui-no-data v-if="messageList.length === 0" :fixed="false" imgUrl="/static/images/toast/img_nodata.png">暂无数据</tui-no-data>
 		<tui-fab :left="left" :right="right" :bottom="bottom" :bgColor="bgColor" :btnList="btnList" @click="gotoAddMessage"></tui-fab>
 		<tui-modal :show="modal" @click="handleDeleteMessage" @cancel="hideDeleteMessageModal" title="提示" content="确定删除该留言吗？"></tui-modal>
+		<tui-modal :show="noLoginModal" @click="gotoLogin" @cancel="hideNoLoginModal" content="您还未登录，请先登录" :button="loginButton" :maskClosable="true"></tui-modal>
 	</view>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 export default {
 	data() {
 		return {
@@ -36,27 +40,55 @@ export default {
 
 			// 上拉刷新
 			loadding: false,
-			pullUpOn: true,
-			
+			pullUpOn: true, // true 可以继续下拉
+
 			modal: false,
-			id: undefined
+			id: undefined,
+			noLoginModal: false,
+			loginButton: [
+				{
+					text: '确定',
+					type: 'red'
+				}
+			]
 		};
 	},
-	onLoad(){
-		this.page=1;
-		this.messageList=[]
+	computed: mapState(['isLogin']),
+	onLoad() {
+		this.page = 1;
+		this.messageList = [];
 		this.getData();
 	},
 	methods: {
+		// 页面上拉触底事件的处理函数
 		onReachBottom: function() {
 			if (!this.pullUpOn) return;
 			this.loadding = true;
 			this.getData();
 		},
-		gotoAddMessage:function(e) {
-			uni.navigateTo({
-				url: '/pages/message/add'
-			});
+		
+		//页面相关事件处理函数--监听用户下拉动作
+		onPullDownRefresh: function() {
+			//延时为了看效果
+			setTimeout(() => {
+				this.pullUpOn = true;
+				this.loadding = false;
+				this.page = 1;
+				this.messageList = [];
+				this.getData();
+				uni.stopPullDownRefresh();
+				this.tui.toast("刷新成功");
+			}, 200)
+		},
+		gotoAddMessage: function(e) {
+			// 登录校验
+			if (!this.isLogin) {
+				this.showNoLoginModal();
+			} else {
+				uni.navigateTo({
+					url: '/pages/message/add'
+				});
+			}
 		},
 		getData: function(e) {
 			const db = wx.cloud.database({
@@ -73,7 +105,7 @@ export default {
 						let message = {};
 						message.id = data._id;
 						message.img = {
-							url: '/static/images/news/avatar_1.jpg'
+							url: data.avatar_url
 						};
 						message.title = {
 							text: data.username
@@ -93,7 +125,7 @@ export default {
 						this.loadding = false;
 						this.pullUpOn = false;
 					} else {
-						this.pullUpOn=true;
+						this.pullUpOn = true;
 						this.page = this.page + 1;
 					}
 				});
@@ -106,39 +138,51 @@ export default {
 			this.id = id;
 		},
 		handleDeleteMessage: function(e) {
-			let index = e.index;
-			if (index === 0) {
-				this.hideDeleteMessageModal();
-			} else {
-				const db = wx.cloud.database({
-					env: 'jnmc-ronxp'
-				});
-				db.collection('message')
-					.doc(this.id)
-					.remove()
-					.then(response => {
-						if (response.stats.removed === 1) {
-							this.tui.toast('删除留言成功');
-							this.page=1;
-							this.messageList=[]
-							this.getData();
-						}
-					})
-					.catch(res => {
-						console.log(res);
-					});
-			}
 			this.hideDeleteMessageModal();
+			if (!this.isLogin) {
+				this.showNoLoginModal();
+			} else {
+				let index = e.index;
+				if (index === 0) {
+					this.hideDeleteMessageModal();
+				} else {
+					const db = wx.cloud.database({
+						env: 'jnmc-ronxp'
+					});
+					db.collection('message')
+						.doc(this.id)
+						.remove()
+						.then(response => {
+							if (response.stats.removed === 1) {
+								this.tui.toast('删除留言成功');
+								this.page = 1;
+								this.messageList = [];
+								this.getData();
+							}
+						})
+						.catch(res => {
+							console.log(res);
+						});
+				}
+			}
+		},
+		hideNoLoginModal: function() {
+			this.noLoginModal = false;
+		},
+		showNoLoginModal: function() {
+			this.noLoginModal = true;
+		},
+		gotoLogin: function() {
+			uni.switchTab({
+				url: '/pages/my/index'
+			});
+			this.hideNoLoginModal();
 		}
 	}
 };
 </script>
 
 <style>
-page {
-	background: #ededed;
-}
-
 .container {
 	padding-bottom: env(safe-area-inset-bottom);
 }

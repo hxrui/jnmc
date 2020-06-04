@@ -1,6 +1,6 @@
-(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],[
-/* 0 */,
-/* 1 */
+(global["webpackJsonp"] = global["webpackJsonp"] || []).push([["common/vendor"],{
+
+/***/ 1:
 /*!************************************************************!*\
   !*** ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js ***!
   \************************************************************/
@@ -1563,7 +1563,1335 @@ var uni$1 = uni;var _default =
 uni$1;exports.default = _default;
 
 /***/ }),
-/* 2 */
+
+/***/ 10:
+/*!**********************************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \**********************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode, /* vue-cli only */
+  components, // fixed by xxxxxx auto components
+  renderjs // fixed by xxxxxx renderjs
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // fixed by xxxxxx auto components
+  if (components) {
+    if (!options.components) {
+      options.components = {}
+    }
+    var hasOwn = Object.prototype.hasOwnProperty
+    for (var name in components) {
+      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
+        options.components[name] = components[name]
+      }
+    }
+  }
+  // fixed by xxxxxx renderjs
+  if (renderjs) {
+    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
+      this[renderjs.__module] = this
+    });
+    (options.mixins || (options.mixins = [])).push(renderjs)
+  }
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+
+/***/ 11:
+/*!**********************************************!*\
+  !*** C:/projects/wechat/jnmc/store/index.js ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 12));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+
+_vue.default.use(_vuex.default);
+
+var store = new _vuex.default.Store({
+  state: {
+    isLogin: false,
+    nickName: "",
+    avatarUrl: "" },
+
+  mutations: {
+    setUserInfo: function setUserInfo(state, userinfo) {
+      if (userinfo) {
+        state.nickName = userinfo.nickName;
+        state.avatarUrl = userinfo.avatarUrl;
+      }
+      state.isLogin = true;
+    },
+    logout: function logout(state) {
+      state.nickName = "";
+      state.avatarUrl = "";
+      state.isLogin = false;
+    } },
+
+  actions: {} });var _default =
+
+
+
+store;exports.default = _default;
+
+/***/ }),
+
+/***/ 12:
+/*!********************************************!*\
+  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
+  \********************************************/
+/*! exports provided: Store, install, mapState, mapMutations, mapGetters, mapActions, createNamespacedHelpers, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
+/**
+ * vuex v3.0.1
+ * (c) 2017 Evan You
+ * @license MIT
+ */
+var applyMixin = function (Vue) {
+  var version = Number(Vue.version.split('.')[0]);
+
+  if (version >= 2) {
+    Vue.mixin({ beforeCreate: vuexInit });
+  } else {
+    // override init and inject vuex init procedure
+    // for 1.x backwards compatibility.
+    var _init = Vue.prototype._init;
+    Vue.prototype._init = function (options) {
+      if ( options === void 0 ) options = {};
+
+      options.init = options.init
+        ? [vuexInit].concat(options.init)
+        : vuexInit;
+      _init.call(this, options);
+    };
+  }
+
+  /**
+   * Vuex init hook, injected into each instances init hooks list.
+   */
+
+  function vuexInit () {
+    var options = this.$options;
+    // store injection
+    if (options.store) {
+      this.$store = typeof options.store === 'function'
+        ? options.store()
+        : options.store;
+    } else if (options.parent && options.parent.$store) {
+      this.$store = options.parent.$store;
+    }
+  }
+};
+
+var devtoolHook =
+  typeof window !== 'undefined' &&
+  window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+
+function devtoolPlugin (store) {
+  if (!devtoolHook) { return }
+
+  store._devtoolHook = devtoolHook;
+
+  devtoolHook.emit('vuex:init', store);
+
+  devtoolHook.on('vuex:travel-to-state', function (targetState) {
+    store.replaceState(targetState);
+  });
+
+  store.subscribe(function (mutation, state) {
+    devtoolHook.emit('vuex:mutation', mutation, state);
+  });
+}
+
+/**
+ * Get the first item that pass the test
+ * by second argument function
+ *
+ * @param {Array} list
+ * @param {Function} f
+ * @return {*}
+ */
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+
+
+/**
+ * forEach for object
+ */
+function forEachValue (obj, fn) {
+  Object.keys(obj).forEach(function (key) { return fn(obj[key], key); });
+}
+
+function isObject (obj) {
+  return obj !== null && typeof obj === 'object'
+}
+
+function isPromise (val) {
+  return val && typeof val.then === 'function'
+}
+
+function assert (condition, msg) {
+  if (!condition) { throw new Error(("[vuex] " + msg)) }
+}
+
+var Module = function Module (rawModule, runtime) {
+  this.runtime = runtime;
+  this._children = Object.create(null);
+  this._rawModule = rawModule;
+  var rawState = rawModule.state;
+  this.state = (typeof rawState === 'function' ? rawState() : rawState) || {};
+};
+
+var prototypeAccessors$1 = { namespaced: { configurable: true } };
+
+prototypeAccessors$1.namespaced.get = function () {
+  return !!this._rawModule.namespaced
+};
+
+Module.prototype.addChild = function addChild (key, module) {
+  this._children[key] = module;
+};
+
+Module.prototype.removeChild = function removeChild (key) {
+  delete this._children[key];
+};
+
+Module.prototype.getChild = function getChild (key) {
+  return this._children[key]
+};
+
+Module.prototype.update = function update (rawModule) {
+  this._rawModule.namespaced = rawModule.namespaced;
+  if (rawModule.actions) {
+    this._rawModule.actions = rawModule.actions;
+  }
+  if (rawModule.mutations) {
+    this._rawModule.mutations = rawModule.mutations;
+  }
+  if (rawModule.getters) {
+    this._rawModule.getters = rawModule.getters;
+  }
+};
+
+Module.prototype.forEachChild = function forEachChild (fn) {
+  forEachValue(this._children, fn);
+};
+
+Module.prototype.forEachGetter = function forEachGetter (fn) {
+  if (this._rawModule.getters) {
+    forEachValue(this._rawModule.getters, fn);
+  }
+};
+
+Module.prototype.forEachAction = function forEachAction (fn) {
+  if (this._rawModule.actions) {
+    forEachValue(this._rawModule.actions, fn);
+  }
+};
+
+Module.prototype.forEachMutation = function forEachMutation (fn) {
+  if (this._rawModule.mutations) {
+    forEachValue(this._rawModule.mutations, fn);
+  }
+};
+
+Object.defineProperties( Module.prototype, prototypeAccessors$1 );
+
+var ModuleCollection = function ModuleCollection (rawRootModule) {
+  // register root module (Vuex.Store options)
+  this.register([], rawRootModule, false);
+};
+
+ModuleCollection.prototype.get = function get (path) {
+  return path.reduce(function (module, key) {
+    return module.getChild(key)
+  }, this.root)
+};
+
+ModuleCollection.prototype.getNamespace = function getNamespace (path) {
+  var module = this.root;
+  return path.reduce(function (namespace, key) {
+    module = module.getChild(key);
+    return namespace + (module.namespaced ? key + '/' : '')
+  }, '')
+};
+
+ModuleCollection.prototype.update = function update$1 (rawRootModule) {
+  update([], this.root, rawRootModule);
+};
+
+ModuleCollection.prototype.register = function register (path, rawModule, runtime) {
+    var this$1 = this;
+    if ( runtime === void 0 ) runtime = true;
+
+  if (true) {
+    assertRawModule(path, rawModule);
+  }
+
+  var newModule = new Module(rawModule, runtime);
+  if (path.length === 0) {
+    this.root = newModule;
+  } else {
+    var parent = this.get(path.slice(0, -1));
+    parent.addChild(path[path.length - 1], newModule);
+  }
+
+  // register nested modules
+  if (rawModule.modules) {
+    forEachValue(rawModule.modules, function (rawChildModule, key) {
+      this$1.register(path.concat(key), rawChildModule, runtime);
+    });
+  }
+};
+
+ModuleCollection.prototype.unregister = function unregister (path) {
+  var parent = this.get(path.slice(0, -1));
+  var key = path[path.length - 1];
+  if (!parent.getChild(key).runtime) { return }
+
+  parent.removeChild(key);
+};
+
+function update (path, targetModule, newModule) {
+  if (true) {
+    assertRawModule(path, newModule);
+  }
+
+  // update target module
+  targetModule.update(newModule);
+
+  // update nested modules
+  if (newModule.modules) {
+    for (var key in newModule.modules) {
+      if (!targetModule.getChild(key)) {
+        if (true) {
+          console.warn(
+            "[vuex] trying to add a new module '" + key + "' on hot reloading, " +
+            'manual reload is needed'
+          );
+        }
+        return
+      }
+      update(
+        path.concat(key),
+        targetModule.getChild(key),
+        newModule.modules[key]
+      );
+    }
+  }
+}
+
+var functionAssert = {
+  assert: function (value) { return typeof value === 'function'; },
+  expected: 'function'
+};
+
+var objectAssert = {
+  assert: function (value) { return typeof value === 'function' ||
+    (typeof value === 'object' && typeof value.handler === 'function'); },
+  expected: 'function or object with "handler" function'
+};
+
+var assertTypes = {
+  getters: functionAssert,
+  mutations: functionAssert,
+  actions: objectAssert
+};
+
+function assertRawModule (path, rawModule) {
+  Object.keys(assertTypes).forEach(function (key) {
+    if (!rawModule[key]) { return }
+
+    var assertOptions = assertTypes[key];
+
+    forEachValue(rawModule[key], function (value, type) {
+      assert(
+        assertOptions.assert(value),
+        makeAssertionMessage(path, key, type, value, assertOptions.expected)
+      );
+    });
+  });
+}
+
+function makeAssertionMessage (path, key, type, value, expected) {
+  var buf = key + " should be " + expected + " but \"" + key + "." + type + "\"";
+  if (path.length > 0) {
+    buf += " in module \"" + (path.join('.')) + "\"";
+  }
+  buf += " is " + (JSON.stringify(value)) + ".";
+  return buf
+}
+
+var Vue; // bind on install
+
+var Store = function Store (options) {
+  var this$1 = this;
+  if ( options === void 0 ) options = {};
+
+  // Auto install if it is not done yet and `window` has `Vue`.
+  // To allow users to avoid auto-installation in some cases,
+  // this code should be placed here. See #731
+  if (!Vue && typeof window !== 'undefined' && window.Vue) {
+    install(window.Vue);
+  }
+
+  if (true) {
+    assert(Vue, "must call Vue.use(Vuex) before creating a store instance.");
+    assert(typeof Promise !== 'undefined', "vuex requires a Promise polyfill in this browser.");
+    assert(this instanceof Store, "Store must be called with the new operator.");
+  }
+
+  var plugins = options.plugins; if ( plugins === void 0 ) plugins = [];
+  var strict = options.strict; if ( strict === void 0 ) strict = false;
+
+  var state = options.state; if ( state === void 0 ) state = {};
+  if (typeof state === 'function') {
+    state = state() || {};
+  }
+
+  // store internal state
+  this._committing = false;
+  this._actions = Object.create(null);
+  this._actionSubscribers = [];
+  this._mutations = Object.create(null);
+  this._wrappedGetters = Object.create(null);
+  this._modules = new ModuleCollection(options);
+  this._modulesNamespaceMap = Object.create(null);
+  this._subscribers = [];
+  this._watcherVM = new Vue();
+
+  // bind commit and dispatch to self
+  var store = this;
+  var ref = this;
+  var dispatch = ref.dispatch;
+  var commit = ref.commit;
+  this.dispatch = function boundDispatch (type, payload) {
+    return dispatch.call(store, type, payload)
+  };
+  this.commit = function boundCommit (type, payload, options) {
+    return commit.call(store, type, payload, options)
+  };
+
+  // strict mode
+  this.strict = strict;
+
+  // init root module.
+  // this also recursively registers all sub-modules
+  // and collects all module getters inside this._wrappedGetters
+  installModule(this, state, [], this._modules.root);
+
+  // initialize the store vm, which is responsible for the reactivity
+  // (also registers _wrappedGetters as computed properties)
+  resetStoreVM(this, state);
+
+  // apply plugins
+  plugins.forEach(function (plugin) { return plugin(this$1); });
+
+  if (Vue.config.devtools) {
+    devtoolPlugin(this);
+  }
+};
+
+var prototypeAccessors = { state: { configurable: true } };
+
+prototypeAccessors.state.get = function () {
+  return this._vm._data.$$state
+};
+
+prototypeAccessors.state.set = function (v) {
+  if (true) {
+    assert(false, "Use store.replaceState() to explicit replace store state.");
+  }
+};
+
+Store.prototype.commit = function commit (_type, _payload, _options) {
+    var this$1 = this;
+
+  // check object-style commit
+  var ref = unifyObjectStyle(_type, _payload, _options);
+    var type = ref.type;
+    var payload = ref.payload;
+    var options = ref.options;
+
+  var mutation = { type: type, payload: payload };
+  var entry = this._mutations[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown mutation type: " + type));
+    }
+    return
+  }
+  this._withCommit(function () {
+    entry.forEach(function commitIterator (handler) {
+      handler(payload);
+    });
+  });
+  this._subscribers.forEach(function (sub) { return sub(mutation, this$1.state); });
+
+  if (
+     true &&
+    options && options.silent
+  ) {
+    console.warn(
+      "[vuex] mutation type: " + type + ". Silent option has been removed. " +
+      'Use the filter functionality in the vue-devtools'
+    );
+  }
+};
+
+Store.prototype.dispatch = function dispatch (_type, _payload) {
+    var this$1 = this;
+
+  // check object-style dispatch
+  var ref = unifyObjectStyle(_type, _payload);
+    var type = ref.type;
+    var payload = ref.payload;
+
+  var action = { type: type, payload: payload };
+  var entry = this._actions[type];
+  if (!entry) {
+    if (true) {
+      console.error(("[vuex] unknown action type: " + type));
+    }
+    return
+  }
+
+  this._actionSubscribers.forEach(function (sub) { return sub(action, this$1.state); });
+
+  return entry.length > 1
+    ? Promise.all(entry.map(function (handler) { return handler(payload); }))
+    : entry[0](payload)
+};
+
+Store.prototype.subscribe = function subscribe (fn) {
+  return genericSubscribe(fn, this._subscribers)
+};
+
+Store.prototype.subscribeAction = function subscribeAction (fn) {
+  return genericSubscribe(fn, this._actionSubscribers)
+};
+
+Store.prototype.watch = function watch (getter, cb, options) {
+    var this$1 = this;
+
+  if (true) {
+    assert(typeof getter === 'function', "store.watch only accepts a function.");
+  }
+  return this._watcherVM.$watch(function () { return getter(this$1.state, this$1.getters); }, cb, options)
+};
+
+Store.prototype.replaceState = function replaceState (state) {
+    var this$1 = this;
+
+  this._withCommit(function () {
+    this$1._vm._data.$$state = state;
+  });
+};
+
+Store.prototype.registerModule = function registerModule (path, rawModule, options) {
+    if ( options === void 0 ) options = {};
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+    assert(path.length > 0, 'cannot register the root module by using registerModule.');
+  }
+
+  this._modules.register(path, rawModule);
+  installModule(this, this.state, path, this._modules.get(path), options.preserveState);
+  // reset store to update getters...
+  resetStoreVM(this, this.state);
+};
+
+Store.prototype.unregisterModule = function unregisterModule (path) {
+    var this$1 = this;
+
+  if (typeof path === 'string') { path = [path]; }
+
+  if (true) {
+    assert(Array.isArray(path), "module path must be a string or an Array.");
+  }
+
+  this._modules.unregister(path);
+  this._withCommit(function () {
+    var parentState = getNestedState(this$1.state, path.slice(0, -1));
+    Vue.delete(parentState, path[path.length - 1]);
+  });
+  resetStore(this);
+};
+
+Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+  this._modules.update(newOptions);
+  resetStore(this, true);
+};
+
+Store.prototype._withCommit = function _withCommit (fn) {
+  var committing = this._committing;
+  this._committing = true;
+  fn();
+  this._committing = committing;
+};
+
+Object.defineProperties( Store.prototype, prototypeAccessors );
+
+function genericSubscribe (fn, subs) {
+  if (subs.indexOf(fn) < 0) {
+    subs.push(fn);
+  }
+  return function () {
+    var i = subs.indexOf(fn);
+    if (i > -1) {
+      subs.splice(i, 1);
+    }
+  }
+}
+
+function resetStore (store, hot) {
+  store._actions = Object.create(null);
+  store._mutations = Object.create(null);
+  store._wrappedGetters = Object.create(null);
+  store._modulesNamespaceMap = Object.create(null);
+  var state = store.state;
+  // init all modules
+  installModule(store, state, [], store._modules.root, true);
+  // reset vm
+  resetStoreVM(store, state, hot);
+}
+
+function resetStoreVM (store, state, hot) {
+  var oldVm = store._vm;
+
+  // bind store public getters
+  store.getters = {};
+  var wrappedGetters = store._wrappedGetters;
+  var computed = {};
+  forEachValue(wrappedGetters, function (fn, key) {
+    // use computed to leverage its lazy-caching mechanism
+    computed[key] = function () { return fn(store); };
+    Object.defineProperty(store.getters, key, {
+      get: function () { return store._vm[key]; },
+      enumerable: true // for local getters
+    });
+  });
+
+  // use a Vue instance to store the state tree
+  // suppress warnings just in case the user has added
+  // some funky global mixins
+  var silent = Vue.config.silent;
+  Vue.config.silent = true;
+  store._vm = new Vue({
+    data: {
+      $$state: state
+    },
+    computed: computed
+  });
+  Vue.config.silent = silent;
+
+  // enable strict mode for new vm
+  if (store.strict) {
+    enableStrictMode(store);
+  }
+
+  if (oldVm) {
+    if (hot) {
+      // dispatch changes in all subscribed watchers
+      // to force getter re-evaluation for hot reloading.
+      store._withCommit(function () {
+        oldVm._data.$$state = null;
+      });
+    }
+    Vue.nextTick(function () { return oldVm.$destroy(); });
+  }
+}
+
+function installModule (store, rootState, path, module, hot) {
+  var isRoot = !path.length;
+  var namespace = store._modules.getNamespace(path);
+
+  // register in namespace map
+  if (module.namespaced) {
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  // set state
+  if (!isRoot && !hot) {
+    var parentState = getNestedState(rootState, path.slice(0, -1));
+    var moduleName = path[path.length - 1];
+    store._withCommit(function () {
+      Vue.set(parentState, moduleName, module.state);
+    });
+  }
+
+  var local = module.context = makeLocalContext(store, namespace, path);
+
+  module.forEachMutation(function (mutation, key) {
+    var namespacedType = namespace + key;
+    registerMutation(store, namespacedType, mutation, local);
+  });
+
+  module.forEachAction(function (action, key) {
+    var type = action.root ? key : namespace + key;
+    var handler = action.handler || action;
+    registerAction(store, type, handler, local);
+  });
+
+  module.forEachGetter(function (getter, key) {
+    var namespacedType = namespace + key;
+    registerGetter(store, namespacedType, getter, local);
+  });
+
+  module.forEachChild(function (child, key) {
+    installModule(store, rootState, path.concat(key), child, hot);
+  });
+}
+
+/**
+ * make localized dispatch, commit, getters and state
+ * if there is no namespace, just use root ones
+ */
+function makeLocalContext (store, namespace, path) {
+  var noNamespace = namespace === '';
+
+  var local = {
+    dispatch: noNamespace ? store.dispatch : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._actions[type]) {
+          console.error(("[vuex] unknown local action type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      return store.dispatch(type, payload)
+    },
+
+    commit: noNamespace ? store.commit : function (_type, _payload, _options) {
+      var args = unifyObjectStyle(_type, _payload, _options);
+      var payload = args.payload;
+      var options = args.options;
+      var type = args.type;
+
+      if (!options || !options.root) {
+        type = namespace + type;
+        if ( true && !store._mutations[type]) {
+          console.error(("[vuex] unknown local mutation type: " + (args.type) + ", global type: " + type));
+          return
+        }
+      }
+
+      store.commit(type, payload, options);
+    }
+  };
+
+  // getters and state object must be gotten lazily
+  // because they will be changed by vm update
+  Object.defineProperties(local, {
+    getters: {
+      get: noNamespace
+        ? function () { return store.getters; }
+        : function () { return makeLocalGetters(store, namespace); }
+    },
+    state: {
+      get: function () { return getNestedState(store.state, path); }
+    }
+  });
+
+  return local
+}
+
+function makeLocalGetters (store, namespace) {
+  var gettersProxy = {};
+
+  var splitPos = namespace.length;
+  Object.keys(store.getters).forEach(function (type) {
+    // skip if the target getter is not match this namespace
+    if (type.slice(0, splitPos) !== namespace) { return }
+
+    // extract local getter type
+    var localType = type.slice(splitPos);
+
+    // Add a port to the getters proxy.
+    // Define as getter property because
+    // we do not want to evaluate the getters in this time.
+    Object.defineProperty(gettersProxy, localType, {
+      get: function () { return store.getters[type]; },
+      enumerable: true
+    });
+  });
+
+  return gettersProxy
+}
+
+function registerMutation (store, type, handler, local) {
+  var entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function wrappedMutationHandler (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  var entry = store._actions[type] || (store._actions[type] = []);
+  entry.push(function wrappedActionHandler (payload, cb) {
+    var res = handler.call(store, {
+      dispatch: local.dispatch,
+      commit: local.commit,
+      getters: local.getters,
+      state: local.state,
+      rootGetters: store.getters,
+      rootState: store.state
+    }, payload, cb);
+    if (!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+    if (store._devtoolHook) {
+      return res.catch(function (err) {
+        store._devtoolHook.emit('vuex:error', err);
+        throw err
+      })
+    } else {
+      return res
+    }
+  });
+}
+
+function registerGetter (store, type, rawGetter, local) {
+  if (store._wrappedGetters[type]) {
+    if (true) {
+      console.error(("[vuex] duplicate getter key: " + type));
+    }
+    return
+  }
+  store._wrappedGetters[type] = function wrappedGetter (store) {
+    return rawGetter(
+      local.state, // local state
+      local.getters, // local getters
+      store.state, // root state
+      store.getters // root getters
+    )
+  };
+}
+
+function enableStrictMode (store) {
+  store._vm.$watch(function () { return this._data.$$state }, function () {
+    if (true) {
+      assert(store._committing, "Do not mutate vuex store state outside mutation handlers.");
+    }
+  }, { deep: true, sync: true });
+}
+
+function getNestedState (state, path) {
+  return path.length
+    ? path.reduce(function (state, key) { return state[key]; }, state)
+    : state
+}
+
+function unifyObjectStyle (type, payload, options) {
+  if (isObject(type) && type.type) {
+    options = payload;
+    payload = type;
+    type = type.type;
+  }
+
+  if (true) {
+    assert(typeof type === 'string', ("Expects string as the type, but found " + (typeof type) + "."));
+  }
+
+  return { type: type, payload: payload, options: options }
+}
+
+function install (_Vue) {
+  if (Vue && _Vue === Vue) {
+    if (true) {
+      console.error(
+        '[vuex] already installed. Vue.use(Vuex) should be called only once.'
+      );
+    }
+    return
+  }
+  Vue = _Vue;
+  applyMixin(Vue);
+}
+
+var mapState = normalizeNamespace(function (namespace, states) {
+  var res = {};
+  normalizeMap(states).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedState () {
+      var state = this.$store.state;
+      var getters = this.$store.getters;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapState', namespace);
+        if (!module) {
+          return
+        }
+        state = module.context.state;
+        getters = module.context.getters;
+      }
+      return typeof val === 'function'
+        ? val.call(this, state, getters)
+        : state[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapMutations = normalizeNamespace(function (namespace, mutations) {
+  var res = {};
+  normalizeMap(mutations).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedMutation () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var commit = this.$store.commit;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapMutations', namespace);
+        if (!module) {
+          return
+        }
+        commit = module.context.commit;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [commit].concat(args))
+        : commit.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var mapGetters = normalizeNamespace(function (namespace, getters) {
+  var res = {};
+  normalizeMap(getters).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    val = namespace + val;
+    res[key] = function mappedGetter () {
+      if (namespace && !getModuleByNamespace(this.$store, 'mapGetters', namespace)) {
+        return
+      }
+      if ( true && !(val in this.$store.getters)) {
+        console.error(("[vuex] unknown getter: " + val));
+        return
+      }
+      return this.$store.getters[val]
+    };
+    // mark vuex getter for devtools
+    res[key].vuex = true;
+  });
+  return res
+});
+
+var mapActions = normalizeNamespace(function (namespace, actions) {
+  var res = {};
+  normalizeMap(actions).forEach(function (ref) {
+    var key = ref.key;
+    var val = ref.val;
+
+    res[key] = function mappedAction () {
+      var args = [], len = arguments.length;
+      while ( len-- ) args[ len ] = arguments[ len ];
+
+      var dispatch = this.$store.dispatch;
+      if (namespace) {
+        var module = getModuleByNamespace(this.$store, 'mapActions', namespace);
+        if (!module) {
+          return
+        }
+        dispatch = module.context.dispatch;
+      }
+      return typeof val === 'function'
+        ? val.apply(this, [dispatch].concat(args))
+        : dispatch.apply(this.$store, [val].concat(args))
+    };
+  });
+  return res
+});
+
+var createNamespacedHelpers = function (namespace) { return ({
+  mapState: mapState.bind(null, namespace),
+  mapGetters: mapGetters.bind(null, namespace),
+  mapMutations: mapMutations.bind(null, namespace),
+  mapActions: mapActions.bind(null, namespace)
+}); };
+
+function normalizeMap (map) {
+  return Array.isArray(map)
+    ? map.map(function (key) { return ({ key: key, val: key }); })
+    : Object.keys(map).map(function (key) { return ({ key: key, val: map[key] }); })
+}
+
+function normalizeNamespace (fn) {
+  return function (namespace, map) {
+    if (typeof namespace !== 'string') {
+      map = namespace;
+      namespace = '';
+    } else if (namespace.charAt(namespace.length - 1) !== '/') {
+      namespace += '/';
+    }
+    return fn(namespace, map)
+  }
+}
+
+function getModuleByNamespace (store, helper, namespace) {
+  var module = store._modulesNamespaceMap[namespace];
+  if ( true && !module) {
+    console.error(("[vuex] module namespace not found in " + helper + "(): " + namespace));
+  }
+  return module
+}
+
+var index_esm = {
+  Store: Store,
+  install: install,
+  version: '3.0.1',
+  mapState: mapState,
+  mapMutations: mapMutations,
+  mapGetters: mapGetters,
+  mapActions: mapActions,
+  createNamespacedHelpers: createNamespacedHelpers
+};
+
+
+/* harmony default export */ __webpack_exports__["default"] = (index_esm);
+
+
+/***/ }),
+
+/***/ 13:
+/*!*****************************************************!*\
+  !*** C:/projects/wechat/jnmc/common/httpRequest.js ***!
+  \*****************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
+                                                                                                      * 常用方法封装 请求，文件上传等
+                                                                                                      * @author echo. 
+                                                                                                      **/
+
+var tui = {
+  //接口地址
+  interfaceUrl: function interfaceUrl() {
+    return 'https://www.thorui.cn';
+    //return 'https://test.thorui.cn'
+    //return 'https://uat.thorui.cn'
+    // return 'https://prod.thorui.cn'
+  },
+  toast: function toast(text, duration, success) {
+    uni.showToast({
+      title: text || "出错啦~",
+      icon: success ? 'success' : 'none',
+      duration: duration || 2000 });
+
+  },
+  modal: function modal(title, content, showCancel, callback, confirmColor, confirmText) {
+    uni.showModal({
+      title: '提示',
+      content: content,
+      showCancel: showCancel,
+      cancelColor: "#555",
+      confirmColor: confirmColor || "#5677fc",
+      confirmText: confirmText || "确定",
+      success: function success(res) {
+        if (res.confirm) {
+          callback && callback(true);
+        } else {
+          callback && callback(false);
+        }
+      } });
+
+  },
+  isAndroid: function isAndroid() {
+    var res = uni.getSystemInfoSync();
+    return res.platform.toLocaleLowerCase() == "android";
+  },
+  constNum: function constNum() {
+    var time = 0;
+
+
+
+    return time;
+  },
+  delayed: null,
+  /**
+                  * 请求数据处理
+                  * @param string url 请求地址
+                  * @param string method 请求方式
+                  *  GET or POST
+                  * @param {*} postData 请求参数
+                  * @param bool isDelay 是否延迟显示loading
+                  * @param bool isForm 数据格式
+                  *  true: 'application/x-www-form-urlencoded'
+                  *  false:'application/json'
+                  * @param bool hideLoading 是否隐藏loading
+                  *  true: 隐藏
+                  *  false:显示
+                  */
+  request: function request(url, method, postData, isDelay, isForm, hideLoading) {
+    //接口请求
+    var loadding = false;
+    tui.delayed && uni.hideLoading();
+    clearTimeout(tui.delayed);
+    tui.delayed = null;
+    if (!hideLoading) {
+      tui.delayed = setTimeout(function () {
+        uni.showLoading({
+          mask: true,
+          title: '请稍候...',
+          success: function success(res) {
+            loadding = true;
+          } });
+
+      }, isDelay ? 1000 : 0);
+    }
+
+    return new Promise(function (resolve, reject) {
+      uni.request({
+        url: tui.interfaceUrl() + url,
+        data: postData,
+        header: {
+          'content-type': isForm ? 'application/x-www-form-urlencoded' : 'application/json',
+          'Authorization': tui.getToken() },
+
+        method: method, //'GET','POST'
+        dataType: 'json',
+        success: function success(res) {
+          clearTimeout(tui.delayed);
+          tui.delayed = null;
+          if (loadding && !hideLoading) {
+            uni.hideLoading();
+          }
+          // if (res.data && res.data.code == 1) {
+          // 	uni.clearStorageSync()
+          // 	tui.modal("登录信息已失效，请重新登录", false, () => {
+          // 		//store.commit("logout") 登录页面执行
+          // 		uni.redirectTo({
+          // 			url: '/pages/common/login/login'
+          // 		})
+          // 	})
+          // 	return
+          // }
+          resolve(res.data);
+        },
+        fail: function fail(res) {
+          clearTimeout(tui.delayed);
+          tui.delayed = null;
+          tui.toast("网络不给力，请稍后再试~");
+          reject(res);
+        } });
+
+    });
+  },
+  /**
+      * 上传文件
+      * @param string url 请求地址
+      * @param string src 文件路径
+      */
+  uploadFile: function uploadFile(url, src) {
+    uni.showLoading({
+      title: '请稍候...' });
+
+    return new Promise(function (resolve, reject) {
+      var uploadTask = uni.uploadFile({
+        url: tui.interfaceUrl() + url,
+        filePath: src,
+        name: 'imageFile',
+        header: {
+          'Authorization': tui.getToken() },
+
+        formData: {
+          // sizeArrayText:""
+        },
+        success: function success(res) {
+          uni.hideLoading();
+          var d = JSON.parse(res.data.replace(/\ufeff/g, "") || "{}");
+          if (d.code % 100 == 0) {
+            //返回图片地址
+            var fileObj = d.data;
+            resolve(fileObj);
+          } else {
+            that.toast(res.msg);
+          }
+        },
+        fail: function fail(res) {
+          reject(res);
+          that.toast(res.msg);
+        } });
+
+    });
+  },
+  tuiJsonp: function tuiJsonp(url, callback, callbackname) {
+
+
+
+
+
+
+
+
+  },
+  //设置用户信息
+  setUserInfo: function setUserInfo(mobile, token) {
+    //uni.setStorageSync("thorui_token", token)
+    uni.setStorageSync("thorui_mobile", mobile);
+  },
+  //获取token
+  getToken: function getToken() {
+    return uni.getStorageSync("thorui_token");
+  },
+  //判断是否登录
+  isLogin: function isLogin() {
+    return uni.getStorageSync("thorui_mobile") ? true : false;
+  },
+  //跳转页面，校验登录状态
+  href: function href(url, isVerify) {
+    if (isVerify && !tui.isLogin()) {
+      uni.navigateTo({
+        url: '/pages/common/login/login' });
+
+    } else {
+      uni.navigateTo({
+        url: url });
+
+    }
+  } };var _default =
+
+
+tui;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
+
+/***/ }),
+
+/***/ 2:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7592,399 +8920,8 @@ internalMixin(Vue);
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
 
 /***/ }),
-/* 3 */
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
 
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-/* 4 */
-/*!******************************************!*\
-  !*** C:/projects/wechat/jnmc/pages.json ***!
-  \******************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-
-
-/***/ }),
-/* 5 */,
-/* 6 */,
-/* 7 */,
-/* 8 */,
-/* 9 */,
-/* 10 */
-/*!**********************************************************************************************************!*\
-  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
-  \**********************************************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-function normalizeComponent (
-  scriptExports,
-  render,
-  staticRenderFns,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier, /* server only */
-  shadowMode, /* vue-cli only */
-  components, // fixed by xxxxxx auto components
-  renderjs // fixed by xxxxxx renderjs
-) {
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // fixed by xxxxxx auto components
-  if (components) {
-    if (!options.components) {
-      options.components = {}
-    }
-    var hasOwn = Object.prototype.hasOwnProperty
-    for (var name in components) {
-      if (hasOwn.call(components, name) && !hasOwn.call(options.components, name)) {
-        options.components[name] = components[name]
-      }
-    }
-  }
-  // fixed by xxxxxx renderjs
-  if (renderjs) {
-    (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
-      this[renderjs.__module] = this
-    });
-    (options.mixins || (options.mixins = [])).push(renderjs)
-  }
-
-  // render functions
-  if (render) {
-    options.render = render
-    options.staticRenderFns = staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = 'data-v-' + scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = shadowMode
-      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
-      : injectStyles
-  }
-
-  if (hook) {
-    if (options.functional) {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      var originalRender = options.render
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return originalRender(h, context)
-      }
-    } else {
-      // inject component registration as beforeCreate hook
-      var existing = options.beforeCreate
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    }
-  }
-
-  return {
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
-/* 11 */
-/*!*****************************************************!*\
-  !*** C:/projects/wechat/jnmc/common/httpRequest.js ***!
-  \*****************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; /**
-                                                                                                      * 常用方法封装 请求，文件上传等
-                                                                                                      * @author echo. 
-                                                                                                      **/
-
-var tui = {
-  //接口地址
-  interfaceUrl: function interfaceUrl() {
-    return 'https://www.thorui.cn';
-    //return 'https://test.thorui.cn'
-    //return 'https://uat.thorui.cn'
-    // return 'https://prod.thorui.cn'
-  },
-  toast: function toast(text, duration, success) {
-    uni.showToast({
-      title: text || "出错啦~",
-      icon: success ? 'success' : 'none',
-      duration: duration || 2000 });
-
-  },
-  modal: function modal(title, content, showCancel, callback, confirmColor, confirmText) {
-    uni.showModal({
-      title: '提示',
-      content: content,
-      showCancel: showCancel,
-      cancelColor: "#555",
-      confirmColor: confirmColor || "#5677fc",
-      confirmText: confirmText || "确定",
-      success: function success(res) {
-        if (res.confirm) {
-          callback && callback(true);
-        } else {
-          callback && callback(false);
-        }
-      } });
-
-  },
-  isAndroid: function isAndroid() {
-    var res = uni.getSystemInfoSync();
-    return res.platform.toLocaleLowerCase() == "android";
-  },
-  constNum: function constNum() {
-    var time = 0;
-
-
-
-    return time;
-  },
-  delayed: null,
-  /**
-                  * 请求数据处理
-                  * @param string url 请求地址
-                  * @param string method 请求方式
-                  *  GET or POST
-                  * @param {*} postData 请求参数
-                  * @param bool isDelay 是否延迟显示loading
-                  * @param bool isForm 数据格式
-                  *  true: 'application/x-www-form-urlencoded'
-                  *  false:'application/json'
-                  * @param bool hideLoading 是否隐藏loading
-                  *  true: 隐藏
-                  *  false:显示
-                  */
-  request: function request(url, method, postData, isDelay, isForm, hideLoading) {
-    //接口请求
-    var loadding = false;
-    tui.delayed && uni.hideLoading();
-    clearTimeout(tui.delayed);
-    tui.delayed = null;
-    if (!hideLoading) {
-      tui.delayed = setTimeout(function () {
-        uni.showLoading({
-          mask: true,
-          title: '请稍候...',
-          success: function success(res) {
-            loadding = true;
-          } });
-
-      }, isDelay ? 1000 : 0);
-    }
-
-    return new Promise(function (resolve, reject) {
-      uni.request({
-        url: tui.interfaceUrl() + url,
-        data: postData,
-        header: {
-          'content-type': isForm ? 'application/x-www-form-urlencoded' : 'application/json',
-          'Authorization': tui.getToken() },
-
-        method: method, //'GET','POST'
-        dataType: 'json',
-        success: function success(res) {
-          clearTimeout(tui.delayed);
-          tui.delayed = null;
-          if (loadding && !hideLoading) {
-            uni.hideLoading();
-          }
-          // if (res.data && res.data.code == 1) {
-          // 	uni.clearStorageSync()
-          // 	tui.modal("登录信息已失效，请重新登录", false, () => {
-          // 		//store.commit("logout") 登录页面执行
-          // 		uni.redirectTo({
-          // 			url: '/pages/common/login/login'
-          // 		})
-          // 	})
-          // 	return
-          // }
-          resolve(res.data);
-        },
-        fail: function fail(res) {
-          clearTimeout(tui.delayed);
-          tui.delayed = null;
-          tui.toast("网络不给力，请稍后再试~");
-          reject(res);
-        } });
-
-    });
-  },
-  /**
-      * 上传文件
-      * @param string url 请求地址
-      * @param string src 文件路径
-      */
-  uploadFile: function uploadFile(url, src) {
-    uni.showLoading({
-      title: '请稍候...' });
-
-    return new Promise(function (resolve, reject) {
-      var uploadTask = uni.uploadFile({
-        url: tui.interfaceUrl() + url,
-        filePath: src,
-        name: 'imageFile',
-        header: {
-          'Authorization': tui.getToken() },
-
-        formData: {
-          // sizeArrayText:""
-        },
-        success: function success(res) {
-          uni.hideLoading();
-          var d = JSON.parse(res.data.replace(/\ufeff/g, "") || "{}");
-          if (d.code % 100 == 0) {
-            //返回图片地址
-            var fileObj = d.data;
-            resolve(fileObj);
-          } else {
-            that.toast(res.msg);
-          }
-        },
-        fail: function fail(res) {
-          reject(res);
-          that.toast(res.msg);
-        } });
-
-    });
-  },
-  tuiJsonp: function tuiJsonp(url, callback, callbackname) {
-
-
-
-
-
-
-
-
-  },
-  //设置用户信息
-  setUserInfo: function setUserInfo(mobile, token) {
-    //uni.setStorageSync("thorui_token", token)
-    uni.setStorageSync("thorui_mobile", mobile);
-  },
-  //获取token
-  getToken: function getToken() {
-    return uni.getStorageSync("thorui_token");
-  },
-  //判断是否登录
-  isLogin: function isLogin() {
-    return uni.getStorageSync("thorui_mobile") ? true : false;
-  },
-  //跳转页面，校验登录状态
-  href: function href(url, isVerify) {
-    if (isVerify && !tui.isLogin()) {
-      uni.navigateTo({
-        url: '/pages/common/login/login' });
-
-    } else {
-      uni.navigateTo({
-        url: url });
-
-    }
-  } };var _default =
-
-
-tui;exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
-
-/***/ }),
-/* 12 */,
-/* 13 */,
-/* 14 */,
-/* 15 */,
-/* 16 */,
-/* 17 */,
-/* 18 */,
-/* 19 */,
-/* 20 */,
-/* 21 */,
-/* 22 */,
-/* 23 */,
-/* 24 */,
-/* 25 */,
-/* 26 */
+/***/ 28:
 /*!**********************************************************************************!*\
   !*** C:/projects/wechat/jnmc/components/common/tui-validation/tui-validation.js ***!
   \**********************************************************************************/
@@ -8260,7 +9197,8 @@ module.exports = {
   validation: form.validation };
 
 /***/ }),
-/* 27 */
+
+/***/ 29:
 /*!*************************************************************!*\
   !*** C:/projects/wechat/jnmc/node_modules/wx-tool/index.js ***!
   \*************************************************************/
@@ -8268,25 +9206,25 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.showToast = showToast;exports.showModal = showModal;exports.requestPayment = requestPayment;exports.arrayEqual = arrayEqual;exports.isEmptyObject = isEmptyObject;exports.randomColor = randomColor;exports.randomNum = randomNum;exports.isIdCard = isIdCard;exports.bankSpace = bankSpace;exports.isNew = isNew;exports.getOptionsSync = getOptionsSync;exports.isNum = isNum;exports.isPhone = isPhone;exports.isMail = isMail;exports.validateURL = validateURL;exports.validateLowerCase = validateLowerCase;exports.validateUpperCase = validateUpperCase;exports.validatAlphabets = validatAlphabets;exports.isPlate = isPlate;exports.trim = trim;exports.debounce = debounce;exports.throttle = throttle;exports.timeChunk = timeChunk;exports.digitUppercase = digitUppercase;exports.decimalAdd = decimalAdd;exports.getDistance = getDistance;exports.uuid = uuid;exports.getUsernameColor = getUsernameColor;exports.isLength = isLength;exports.formatSeconds = formatSeconds;exports.parseTime = parseTime;exports.formatTime = formatTime;exports.stringfyQueryString = stringfyQueryString;exports.isBack = isBack;exports.successBack = successBack;exports.getQueryString = getQueryString;exports.bMapTransQQMap = bMapTransQQMap;exports.qqMapTransBMap = qqMapTransBMap;exports.localEncoding = localEncoding;exports.cloudFn = cloudFn;exports.cloudDataBase = cloudDataBase;exports.cloudGetPay = cloudGetPay;exports.log = log;exports.makePy = makePy;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator */ 28));var _oMultiDiff;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _createForOfIteratorHelper(o) {if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) {var i = 0;var F = function F() {};return { s: F, n: function n() {if (i >= o.length) return { done: true };return { done: false, value: o[i++] };}, e: function e(_e) {throw _e;}, f: F };}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var it,normalCompletion = true,didErr = false,err;return { s: function s() {it = o[Symbol.iterator]();}, n: function n() {var step = it.next();normalCompletion = step.done;return step;}, e: function e(_e2) {didErr = true;err = _e2;}, f: function f() {try {if (!normalCompletion && it.return != null) it.return();} finally {if (didErr) throw err;}} };}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         * @Author: lx (前端开发工程师) 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         * @Date: 2018-09-25 13:46:23 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         * @Desc: 常用的工具类函数
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         * @Last Modified by: lx (前端开发工程师)
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         * @Last Modified time: 2019-04-10 16:10:32
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         */
+Object.defineProperty(exports, "__esModule", { value: true });exports.showToast = showToast;exports.showModal = showModal;exports.requestPayment = requestPayment;exports.arrayEqual = arrayEqual;exports.isEmptyObject = isEmptyObject;exports.randomColor = randomColor;exports.randomNum = randomNum;exports.isIdCard = isIdCard;exports.bankSpace = bankSpace;exports.isNew = isNew;exports.getOptionsSync = getOptionsSync;exports.isNum = isNum;exports.isPhone = isPhone;exports.isMail = isMail;exports.validateURL = validateURL;exports.validateLowerCase = validateLowerCase;exports.validateUpperCase = validateUpperCase;exports.validatAlphabets = validatAlphabets;exports.isPlate = isPlate;exports.trim = trim;exports.debounce = debounce;exports.throttle = throttle;exports.timeChunk = timeChunk;exports.digitUppercase = digitUppercase;exports.decimalAdd = decimalAdd;exports.getDistance = getDistance;exports.uuid = uuid;exports.getUsernameColor = getUsernameColor;exports.isLength = isLength;exports.formatSeconds = formatSeconds;exports.parseTime = parseTime;exports.formatTime = formatTime;exports.stringfyQueryString = stringfyQueryString;exports.isBack = isBack;exports.successBack = successBack;exports.getQueryString = getQueryString;exports.bMapTransQQMap = bMapTransQQMap;exports.qqMapTransBMap = qqMapTransBMap;exports.localEncoding = localEncoding;exports.cloudFn = cloudFn;exports.cloudDataBase = cloudDataBase;exports.cloudGetPay = cloudGetPay;exports.log = log;exports.makePy = makePy;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator */ 30));var _oMultiDiff;function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _createForOfIteratorHelper(o) {if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) {var i = 0;var F = function F() {};return { s: F, n: function n() {if (i >= o.length) return { done: true };return { done: false, value: o[i++] };}, e: function e(_e) {throw _e;}, f: F };}throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}var it,normalCompletion = true,didErr = false,err;return { s: function s() {it = o[Symbol.iterator]();}, n: function n() {var step = it.next();normalCompletion = step.done;return step;}, e: function e(_e2) {didErr = true;err = _e2;}, f: function f() {try {if (!normalCompletion && it.return != null) it.return();} finally {if (didErr) throw err;}} };}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(n);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} /*
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @Author: lx (前端开发工程师) 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @Date: 2018-09-25 13:46:23 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @Desc: 常用的工具类函数
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @Last Modified by: lx (前端开发工程师)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      * @Last Modified time: 2019-04-10 16:10:32
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      */
 
 /**
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             * @param {object} obj 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             *  {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             *      title: '提示的内容',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             *      icon: 图标，有效值 'success', 'none',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             *      duration: 提示的延迟时间，单位毫秒，默认：1500,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             *      mask: 是否显示透明蒙层，防止触摸穿透，默认：true
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             *  }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             *  返回Promise
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          * @param {object} obj 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  {
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *      title: '提示的内容',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *      icon: 图标，有效值 'success', 'none',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *      duration: 提示的延迟时间，单位毫秒，默认：1500,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *      mask: 是否显示透明蒙层，防止触摸穿透，默认：true
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          *  返回Promise
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          */
 function showToast(obj) {var _ref =
 
 
@@ -9117,17 +10055,50 @@ var strChineseFirstPY = "YDYQSXMWZSSXJBYMGCCZQPSSQBYCDSCDQLDYLYBSSJGYZZJJFKCCLZD
 var oMultiDiff = (_oMultiDiff = { "19969": "DZ", "19975": "WM", "19988": "QJ", "20048": "YL", "20056": "SC", "20060": "NM", "20094": "QG", "20127": "QJ", "20167": "QC", "20193": "YG", "20250": "KH", "20256": "ZC", "20282": "SC", "20285": "QJG", "20291": "TD", "20314": "YD", "20340": "NE", "20375": "TD", "20389": "YJ", "20391": "CZ", "20415": "PB", "20446": "YS", "20447": "SQ", "20504": "TC", "20608": "KG", "20854": "QJ", "20857": "ZC", "20911": "PF" }, _defineProperty(_oMultiDiff, "20504", "TC"), _defineProperty(_oMultiDiff, "20608", "KG"), _defineProperty(_oMultiDiff, "20854", "QJ"), _defineProperty(_oMultiDiff, "20857", "ZC"), _defineProperty(_oMultiDiff, "20911", "PF"), _defineProperty(_oMultiDiff, "20985", "AW"), _defineProperty(_oMultiDiff, "21032", "PB"), _defineProperty(_oMultiDiff, "21048", "XQ"), _defineProperty(_oMultiDiff, "21049", "SC"), _defineProperty(_oMultiDiff, "21089", "YS"), _defineProperty(_oMultiDiff, "21119", "JC"), _defineProperty(_oMultiDiff, "21242", "SB"), _defineProperty(_oMultiDiff, "21273", "SC"), _defineProperty(_oMultiDiff, "21305", "YP"), _defineProperty(_oMultiDiff, "21306", "QO"), _defineProperty(_oMultiDiff, "21330", "ZC"), _defineProperty(_oMultiDiff, "21333", "SDC"), _defineProperty(_oMultiDiff, "21345", "QK"), _defineProperty(_oMultiDiff, "21378", "CA"), _defineProperty(_oMultiDiff, "21397", "SC"), _defineProperty(_oMultiDiff, "21414", "XS"), _defineProperty(_oMultiDiff, "21442", "SC"), _defineProperty(_oMultiDiff, "21477", "JG"), _defineProperty(_oMultiDiff, "21480", "TD"), _defineProperty(_oMultiDiff, "21484", "ZS"), _defineProperty(_oMultiDiff, "21494", "YX"), _defineProperty(_oMultiDiff, "21505", "YX"), _defineProperty(_oMultiDiff, "21512", "HG"), _defineProperty(_oMultiDiff, "21523", "XH"), _defineProperty(_oMultiDiff, "21537", "PB"), _defineProperty(_oMultiDiff, "21542", "PF"), _defineProperty(_oMultiDiff, "21549", "KH"), _defineProperty(_oMultiDiff, "21571", "E"), _defineProperty(_oMultiDiff, "21574", "DA"), _defineProperty(_oMultiDiff, "21588", "TD"), _defineProperty(_oMultiDiff, "21589", "O"), _defineProperty(_oMultiDiff, "21618", "ZC"), _defineProperty(_oMultiDiff, "21621", "KHA"), _defineProperty(_oMultiDiff, "21632", "ZJ"), _defineProperty(_oMultiDiff, "21654", "KG"), _defineProperty(_oMultiDiff, "21679", "LKG"), _defineProperty(_oMultiDiff, "21683", "KH"), _defineProperty(_oMultiDiff, "21710", "A"), _defineProperty(_oMultiDiff, "21719", "YH"), _defineProperty(_oMultiDiff, "21734", "WOE"), _defineProperty(_oMultiDiff, "21769", "A"), _defineProperty(_oMultiDiff, "21780", "WN"), _defineProperty(_oMultiDiff, "21804", "XH"), _defineProperty(_oMultiDiff, "21834", "A"), _defineProperty(_oMultiDiff, "21899", "ZD"), _defineProperty(_oMultiDiff, "21903", "RN"), _defineProperty(_oMultiDiff, "21908", "WO"), _defineProperty(_oMultiDiff, "21939", "ZC"), _defineProperty(_oMultiDiff, "21956", "SA"), _defineProperty(_oMultiDiff, "21964", "YA"), _defineProperty(_oMultiDiff, "21970", "TD"), _defineProperty(_oMultiDiff, "22003", "A"), _defineProperty(_oMultiDiff, "22031", "JG"), _defineProperty(_oMultiDiff, "22040", "XS"), _defineProperty(_oMultiDiff, "22060", "ZC"), _defineProperty(_oMultiDiff, "22066", "ZC"), _defineProperty(_oMultiDiff, "22079", "MH"), _defineProperty(_oMultiDiff, "22129", "XJ"), _defineProperty(_oMultiDiff, "22179", "XA"), _defineProperty(_oMultiDiff, "22237", "NJ"), _defineProperty(_oMultiDiff, "22244", "TD"), _defineProperty(_oMultiDiff, "22280", "JQ"), _defineProperty(_oMultiDiff, "22300", "YH"), _defineProperty(_oMultiDiff, "22313", "XW"), _defineProperty(_oMultiDiff, "22331", "YQ"), _defineProperty(_oMultiDiff, "22343", "YJ"), _defineProperty(_oMultiDiff, "22351", "PH"), _defineProperty(_oMultiDiff, "22395", "DC"), _defineProperty(_oMultiDiff, "22412", "TD"), _defineProperty(_oMultiDiff, "22484", "PB"), _defineProperty(_oMultiDiff, "22500", "PB"), _defineProperty(_oMultiDiff, "22534", "ZD"), _defineProperty(_oMultiDiff, "22549", "DH"), _defineProperty(_oMultiDiff, "22561", "PB"), _defineProperty(_oMultiDiff, "22612", "TD"), _defineProperty(_oMultiDiff, "22771", "KQ"), _defineProperty(_oMultiDiff, "22831", "HB"), _defineProperty(_oMultiDiff, "22841", "JG"), _defineProperty(_oMultiDiff, "22855", "QJ"), _defineProperty(_oMultiDiff, "22865", "XQ"), _defineProperty(_oMultiDiff, "23013", "ML"), _defineProperty(_oMultiDiff, "23081", "WM"), _defineProperty(_oMultiDiff, "23487", "SX"), _defineProperty(_oMultiDiff, "23558", "QJ"), _defineProperty(_oMultiDiff, "23561", "YW"), _defineProperty(_oMultiDiff, "23586", "YW"), _defineProperty(_oMultiDiff, "23614", "YW"), _defineProperty(_oMultiDiff, "23615", "SN"), _defineProperty(_oMultiDiff, "23631", "PB"), _defineProperty(_oMultiDiff, "23646", "ZS"), _defineProperty(_oMultiDiff, "23663", "ZT"), _defineProperty(_oMultiDiff, "23673", "YG"), _defineProperty(_oMultiDiff, "23762", "TD"), _defineProperty(_oMultiDiff, "23769", "ZS"), _defineProperty(_oMultiDiff, "23780", "QJ"), _defineProperty(_oMultiDiff, "23884", "QK"), _defineProperty(_oMultiDiff, "24055", "XH"), _defineProperty(_oMultiDiff, "24113", "DC"), _defineProperty(_oMultiDiff, "24162", "ZC"), _defineProperty(_oMultiDiff, "24191", "GA"), _defineProperty(_oMultiDiff, "24273", "QJ"), _defineProperty(_oMultiDiff, "24324", "NL"), _defineProperty(_oMultiDiff, "24377", "TD"), _defineProperty(_oMultiDiff, "24378", "QJ"), _defineProperty(_oMultiDiff, "24439", "PF"), _defineProperty(_oMultiDiff, "24554", "ZS"), _defineProperty(_oMultiDiff, "24683", "TD"), _defineProperty(_oMultiDiff, "24694", "WE"), _defineProperty(_oMultiDiff, "24733", "LK"), _defineProperty(_oMultiDiff, "24925", "TN"), _defineProperty(_oMultiDiff, "25094", "ZG"), _defineProperty(_oMultiDiff, "25100", "XQ"), _defineProperty(_oMultiDiff, "25103", "XH"), _defineProperty(_oMultiDiff, "25153", "PB"), _defineProperty(_oMultiDiff, "25170", "PB"), _defineProperty(_oMultiDiff, "25179", "KG"), _defineProperty(_oMultiDiff, "25203", "PB"), _defineProperty(_oMultiDiff, "25240", "ZS"), _defineProperty(_oMultiDiff, "25282", "FB"), _defineProperty(_oMultiDiff, "25303", "NA"), _defineProperty(_oMultiDiff, "25324", "KG"), _defineProperty(_oMultiDiff, "25341", "ZY"), _defineProperty(_oMultiDiff, "25373", "WZ"), _defineProperty(_oMultiDiff, "25375", "XJ"), _defineProperty(_oMultiDiff, "25384", "A"), _defineProperty(_oMultiDiff, "25457", "A"), _defineProperty(_oMultiDiff, "25528", "SD"), _defineProperty(_oMultiDiff, "25530", "SC"), _defineProperty(_oMultiDiff, "25552", "TD"), _defineProperty(_oMultiDiff, "25774", "ZC"), _defineProperty(_oMultiDiff, "25874", "ZC"), _defineProperty(_oMultiDiff, "26044", "YW"), _defineProperty(_oMultiDiff, "26080", "WM"), _defineProperty(_oMultiDiff, "26292", "PB"), _defineProperty(_oMultiDiff, "26333", "PB"), _defineProperty(_oMultiDiff, "26355", "ZY"), _defineProperty(_oMultiDiff, "26366", "CZ"), _defineProperty(_oMultiDiff, "26397", "ZC"), _defineProperty(_oMultiDiff, "26399", "QJ"), _defineProperty(_oMultiDiff, "26415", "ZS"), _defineProperty(_oMultiDiff, "26451", "SB"), _defineProperty(_oMultiDiff, "26526", "ZC"), _defineProperty(_oMultiDiff, "26552", "JG"), _defineProperty(_oMultiDiff, "26561", "TD"), _defineProperty(_oMultiDiff, "26588", "JG"), _defineProperty(_oMultiDiff, "26597", "CZ"), _defineProperty(_oMultiDiff, "26629", "ZS"), _defineProperty(_oMultiDiff, "26638", "YL"), _defineProperty(_oMultiDiff, "26646", "XQ"), _defineProperty(_oMultiDiff, "26653", "KG"), _defineProperty(_oMultiDiff, "26657", "XJ"), _defineProperty(_oMultiDiff, "26727", "HG"), _defineProperty(_oMultiDiff, "26894", "ZC"), _defineProperty(_oMultiDiff, "26937", "ZS"), _defineProperty(_oMultiDiff, "26946", "ZC"), _defineProperty(_oMultiDiff, "26999", "KJ"), _defineProperty(_oMultiDiff, "27099", "KJ"), _defineProperty(_oMultiDiff, "27449", "YQ"), _defineProperty(_oMultiDiff, "27481", "XS"), _defineProperty(_oMultiDiff, "27542", "ZS"), _defineProperty(_oMultiDiff, "27663", "ZS"), _defineProperty(_oMultiDiff, "27748", "TS"), _defineProperty(_oMultiDiff, "27784", "SC"), _defineProperty(_oMultiDiff, "27788", "ZD"), _defineProperty(_oMultiDiff, "27795", "TD"), _defineProperty(_oMultiDiff, "27812", "O"), _defineProperty(_oMultiDiff, "27850", "PB"), _defineProperty(_oMultiDiff, "27852", "MB"), _defineProperty(_oMultiDiff, "27895", "SL"), _defineProperty(_oMultiDiff, "27898", "PL"), _defineProperty(_oMultiDiff, "27973", "QJ"), _defineProperty(_oMultiDiff, "27981", "KH"), _defineProperty(_oMultiDiff, "27986", "HX"), _defineProperty(_oMultiDiff, "27994", "XJ"), _defineProperty(_oMultiDiff, "28044", "YC"), _defineProperty(_oMultiDiff, "28065", "WG"), _defineProperty(_oMultiDiff, "28177", "SM"), _defineProperty(_oMultiDiff, "28267", "QJ"), _defineProperty(_oMultiDiff, "28291", "KH"), _defineProperty(_oMultiDiff, "28337", "ZQ"), _defineProperty(_oMultiDiff, "28463", "TL"), _defineProperty(_oMultiDiff, "28548", "DC"), _defineProperty(_oMultiDiff, "28601", "TD"), _defineProperty(_oMultiDiff, "28689", "PB"), _defineProperty(_oMultiDiff, "28805", "JG"), _defineProperty(_oMultiDiff, "28820", "QG"), _defineProperty(_oMultiDiff, "28846", "PB"), _defineProperty(_oMultiDiff, "28952", "TD"), _defineProperty(_oMultiDiff, "28975", "ZC"), _defineProperty(_oMultiDiff, "29100", "A"), _defineProperty(_oMultiDiff, "29325", "QJ"), _defineProperty(_oMultiDiff, "29575", "SL"), _defineProperty(_oMultiDiff, "29602", "FB"), _defineProperty(_oMultiDiff, "30010", "TD"), _defineProperty(_oMultiDiff, "30044", "CX"), _defineProperty(_oMultiDiff, "30058", "PF"), _defineProperty(_oMultiDiff, "30091", "YSP"), _defineProperty(_oMultiDiff, "30111", "YN"), _defineProperty(_oMultiDiff, "30229", "XJ"), _defineProperty(_oMultiDiff, "30427", "SC"), _defineProperty(_oMultiDiff, "30465", "SX"), _defineProperty(_oMultiDiff, "30631", "YQ"), _defineProperty(_oMultiDiff, "30655", "QJ"), _defineProperty(_oMultiDiff, "30684", "QJG"), _defineProperty(_oMultiDiff, "30707", "SD"), _defineProperty(_oMultiDiff, "30729", "XH"), _defineProperty(_oMultiDiff, "30796", "LG"), _defineProperty(_oMultiDiff, "30917", "PB"), _defineProperty(_oMultiDiff, "31074", "NM"), _defineProperty(_oMultiDiff, "31085", "JZ"), _defineProperty(_oMultiDiff, "31109", "SC"), _defineProperty(_oMultiDiff, "31181", "ZC"), _defineProperty(_oMultiDiff, "31192", "MLB"), _defineProperty(_oMultiDiff, "31293", "JQ"), _defineProperty(_oMultiDiff, "31400", "YX"), _defineProperty(_oMultiDiff, "31584", "YJ"), _defineProperty(_oMultiDiff, "31896", "ZN"), _defineProperty(_oMultiDiff, "31909", "ZY"), _defineProperty(_oMultiDiff, "31995", "XJ"), _defineProperty(_oMultiDiff, "32321", "PF"), _defineProperty(_oMultiDiff, "32327", "ZY"), _defineProperty(_oMultiDiff, "32418", "HG"), _defineProperty(_oMultiDiff, "32420", "XQ"), _defineProperty(_oMultiDiff, "32421", "HG"), _defineProperty(_oMultiDiff, "32438", "LG"), _defineProperty(_oMultiDiff, "32473", "GJ"), _defineProperty(_oMultiDiff, "32488", "TD"), _defineProperty(_oMultiDiff, "32521", "QJ"), _defineProperty(_oMultiDiff, "32527", "PB"), _defineProperty(_oMultiDiff, "32562", "ZSQ"), _defineProperty(_oMultiDiff, "32564", "JZ"), _defineProperty(_oMultiDiff, "32735", "ZD"), _defineProperty(_oMultiDiff, "32793", "PB"), _defineProperty(_oMultiDiff, "33071", "PF"), _defineProperty(_oMultiDiff, "33098", "XL"), _defineProperty(_oMultiDiff, "33100", "YA"), _defineProperty(_oMultiDiff, "33152", "PB"), _defineProperty(_oMultiDiff, "33261", "CX"), _defineProperty(_oMultiDiff, "33324", "BP"), _defineProperty(_oMultiDiff, "33333", "TD"), _defineProperty(_oMultiDiff, "33406", "YA"), _defineProperty(_oMultiDiff, "33426", "WM"), _defineProperty(_oMultiDiff, "33432", "PB"), _defineProperty(_oMultiDiff, "33445", "JG"), _defineProperty(_oMultiDiff, "33486", "ZN"), _defineProperty(_oMultiDiff, "33493", "TS"), _defineProperty(_oMultiDiff, "33507", "QJ"), _defineProperty(_oMultiDiff, "33540", "QJ"), _defineProperty(_oMultiDiff, "33544", "ZC"), _defineProperty(_oMultiDiff, "33564", "XQ"), _defineProperty(_oMultiDiff, "33617", "YT"), _defineProperty(_oMultiDiff, "33632", "QJ"), _defineProperty(_oMultiDiff, "33636", "XH"), _defineProperty(_oMultiDiff, "33637", "YX"), _defineProperty(_oMultiDiff, "33694", "WG"), _defineProperty(_oMultiDiff, "33705", "PF"), _defineProperty(_oMultiDiff, "33728", "YW"), _defineProperty(_oMultiDiff, "33882", "SR"), _defineProperty(_oMultiDiff, "34067", "WM"), _defineProperty(_oMultiDiff, "34074", "YW"), _defineProperty(_oMultiDiff, "34121", "QJ"), _defineProperty(_oMultiDiff, "34255", "ZC"), _defineProperty(_oMultiDiff, "34259", "XL"), _defineProperty(_oMultiDiff, "34425", "JH"), _defineProperty(_oMultiDiff, "34430", "XH"), _defineProperty(_oMultiDiff, "34485", "KH"), _defineProperty(_oMultiDiff, "34503", "YS"), _defineProperty(_oMultiDiff, "34532", "HG"), _defineProperty(_oMultiDiff, "34552", "XS"), _defineProperty(_oMultiDiff, "34558", "YE"), _defineProperty(_oMultiDiff, "34593", "ZL"), _defineProperty(_oMultiDiff, "34660", "YQ"), _defineProperty(_oMultiDiff, "34892", "XH"), _defineProperty(_oMultiDiff, "34928", "SC"), _defineProperty(_oMultiDiff, "34999", "QJ"), _defineProperty(_oMultiDiff, "35048", "PB"), _defineProperty(_oMultiDiff, "35059", "SC"), _defineProperty(_oMultiDiff, "35098", "ZC"), _defineProperty(_oMultiDiff, "35203", "TQ"), _defineProperty(_oMultiDiff, "35265", "JX"), _defineProperty(_oMultiDiff, "35299", "JX"), _defineProperty(_oMultiDiff, "35782", "SZ"), _defineProperty(_oMultiDiff, "35828", "YS"), _defineProperty(_oMultiDiff, "35830", "E"), _defineProperty(_oMultiDiff, "35843", "TD"), _defineProperty(_oMultiDiff, "35895", "YG"), _defineProperty(_oMultiDiff, "35977", "MH"), _defineProperty(_oMultiDiff, "36158", "JG"), _defineProperty(_oMultiDiff, "36228", "QJ"), _defineProperty(_oMultiDiff, "36426", "XQ"), _defineProperty(_oMultiDiff, "36466", "DC"), _defineProperty(_oMultiDiff, "36710", "JC"), _defineProperty(_oMultiDiff, "36711", "ZYG"), _defineProperty(_oMultiDiff, "36767", "PB"), _defineProperty(_oMultiDiff, "36866", "SK"), _defineProperty(_oMultiDiff, "36951", "YW"), _defineProperty(_oMultiDiff, "37034", "YX"), _defineProperty(_oMultiDiff, "37063", "XH"), _defineProperty(_oMultiDiff, "37218", "ZC"), _defineProperty(_oMultiDiff, "37325", "ZC"), _defineProperty(_oMultiDiff, "38063", "PB"), _defineProperty(_oMultiDiff, "38079", "TD"), _defineProperty(_oMultiDiff, "38085", "QY"), _defineProperty(_oMultiDiff, "38107", "DC"), _defineProperty(_oMultiDiff, "38116", "TD"), _defineProperty(_oMultiDiff, "38123", "YD"), _defineProperty(_oMultiDiff, "38224", "HG"), _defineProperty(_oMultiDiff, "38241", "XTC"), _defineProperty(_oMultiDiff, "38271", "ZC"), _defineProperty(_oMultiDiff, "38415", "YE"), _defineProperty(_oMultiDiff, "38426", "KH"), _defineProperty(_oMultiDiff, "38461", "YD"), _defineProperty(_oMultiDiff, "38463", "AE"), _defineProperty(_oMultiDiff, "38466", "PB"), _defineProperty(_oMultiDiff, "38477", "XJ"), _defineProperty(_oMultiDiff, "38518", "YT"), _defineProperty(_oMultiDiff, "38551", "WK"), _defineProperty(_oMultiDiff, "38585", "ZC"), _defineProperty(_oMultiDiff, "38704", "XS"), _defineProperty(_oMultiDiff, "38739", "LJ"), _defineProperty(_oMultiDiff, "38761", "GJ"), _defineProperty(_oMultiDiff, "38808", "SQ"), _defineProperty(_oMultiDiff, "39048", "JG"), _defineProperty(_oMultiDiff, "39049", "XJ"), _defineProperty(_oMultiDiff, "39052", "HG"), _defineProperty(_oMultiDiff, "39076", "CZ"), _defineProperty(_oMultiDiff, "39271", "XT"), _defineProperty(_oMultiDiff, "39534", "TD"), _defineProperty(_oMultiDiff, "39552", "TD"), _defineProperty(_oMultiDiff, "39584", "PB"), _defineProperty(_oMultiDiff, "39647", "SB"), _defineProperty(_oMultiDiff, "39730", "LG"), _defineProperty(_oMultiDiff, "39748", "TPB"), _defineProperty(_oMultiDiff, "40109", "ZQ"), _defineProperty(_oMultiDiff, "40479", "ND"), _defineProperty(_oMultiDiff, "40516", "HG"), _defineProperty(_oMultiDiff, "40536", "HG"), _defineProperty(_oMultiDiff, "40583", "QJ"), _defineProperty(_oMultiDiff, "40765", "YQ"), _defineProperty(_oMultiDiff, "40784", "QJ"), _defineProperty(_oMultiDiff, "40840", "YK"), _defineProperty(_oMultiDiff, "40863", "QJG"), _oMultiDiff);
 
 /***/ }),
-/* 28 */
+
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 30:
 /*!*********************************************************************************************!*\
   !*** ./node_modules/@vue/babel-preset-app/node_modules/@babel/runtime/regenerator/index.js ***!
   \*********************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! regenerator-runtime */ 29);
+module.exports = __webpack_require__(/*! regenerator-runtime */ 31);
 
 /***/ }),
-/* 29 */
+
+/***/ 31:
 /*!************************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime-module.js ***!
   \************************************************************/
@@ -9158,7 +10129,7 @@ var oldRuntime = hadRuntime && g.regeneratorRuntime;
 // Force reevalutation of runtime.js.
 g.regeneratorRuntime = undefined;
 
-module.exports = __webpack_require__(/*! ./runtime */ 30);
+module.exports = __webpack_require__(/*! ./runtime */ 32);
 
 if (hadRuntime) {
   // Restore the original runtime.
@@ -9174,7 +10145,8 @@ if (hadRuntime) {
 
 
 /***/ }),
-/* 30 */
+
+/***/ 32:
 /*!*****************************************************!*\
   !*** ./node_modules/regenerator-runtime/runtime.js ***!
   \*****************************************************/
@@ -9904,6 +10876,29 @@ if (hadRuntime) {
 );
 
 
+/***/ }),
+
+/***/ 4:
+/*!******************************************!*\
+  !*** C:/projects/wechat/jnmc/pages.json ***!
+  \******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+
+/***/ 81:
+/*!***********************************************!*\
+  !*** C:/projects/wechat/jnmc/libs/amap-wx.js ***!
+  \***********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function AMapWX(a) {this.key = a.key, this.requestConfig = { key: a.key, s: "rsx", platform: "WXJS", appname: a.key, sdkversion: "1.2.0", logversion: "2.0" };}AMapWX.prototype.getWxLocation = function (a, b) {wx.getLocation({ type: "gcj02", success: function success(a) {var c = a.longitude + "," + a.latitude;wx.setStorage({ key: "userLocation", data: c }), b(c);}, fail: function fail(c) {wx.getStorage({ key: "userLocation", success: function success(a) {a.data && b(a.data);} }), a.fail({ errCode: "0", errMsg: c.errMsg || "" });} });}, AMapWX.prototype.getRegeo = function (a) {function c(c) {var d = b.requestConfig;wx.request({ url: "https://restapi.amap.com/v3/geocode/regeo", data: { key: b.key, location: c, extensions: "all", s: d.s, platform: d.platform, appname: b.key, sdkversion: d.sdkversion, logversion: d.logversion }, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {var d, e, f, g, h, i, j, k, l;b.data.status && "1" == b.data.status ? (d = b.data.regeocode, e = d.addressComponent, f = [], g = "", d && d.roads[0] && d.roads[0].name && (g = d.roads[0].name + "附近"), h = c.split(",")[0], i = c.split(",")[1], d.pois && d.pois[0] && (g = d.pois[0].name + "附近", j = d.pois[0].location, j && (h = parseFloat(j.split(",")[0]), i = parseFloat(j.split(",")[1]))), e.provice && f.push(e.provice), e.city && f.push(e.city), e.district && f.push(e.district), e.streetNumber && e.streetNumber.street && e.streetNumber.number ? (f.push(e.streetNumber.street), f.push(e.streetNumber.number)) : (k = "", d && d.roads[0] && d.roads[0].name && (k = d.roads[0].name), f.push(k)), f = f.join(""), l = [{ iconPath: a.iconPath, width: a.iconWidth, height: a.iconHeight, name: f, desc: g, longitude: h, latitude: i, id: 0, regeocodeData: d }], a.success(l)) : a.fail({ errCode: b.data.infocode, errMsg: b.data.info });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}var b = this;a.location ? c(a.location) : b.getWxLocation(a, function (a) {c(a);});}, AMapWX.prototype.getWeather = function (a) {function d(d) {var e = "base";a.type && "forecast" == a.type && (e = "all"), wx.request({ url: "https://restapi.amap.com/v3/weather/weatherInfo", data: { key: b.key, city: d, extensions: e, s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion }, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {function c(a) {var b = { city: { text: "城市", data: a.city }, weather: { text: "天气", data: a.weather }, temperature: { text: "温度", data: a.temperature }, winddirection: { text: "风向", data: a.winddirection + "风" }, windpower: { text: "风力", data: a.windpower + "级" }, humidity: { text: "湿度", data: a.humidity + "%" } };return b;}var d, e;b.data.status && "1" == b.data.status ? b.data.lives ? (d = b.data.lives, d && d.length > 0 && (d = d[0], e = c(d), e["liveData"] = d, a.success(e))) : b.data.forecasts && b.data.forecasts[0] && a.success({ forecast: b.data.forecasts[0] }) : a.fail({ errCode: b.data.infocode, errMsg: b.data.info });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}function e(e) {wx.request({ url: "https://restapi.amap.com/v3/geocode/regeo", data: { key: b.key, location: e, extensions: "all", s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion }, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {var c, e;b.data.status && "1" == b.data.status ? (e = b.data.regeocode, e.addressComponent ? c = e.addressComponent.adcode : e.aois && e.aois.length > 0 && (c = e.aois[0].adcode), d(c)) : a.fail({ errCode: b.data.infocode, errMsg: b.data.info });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}var b = this,c = b.requestConfig;a.city ? d(a.city) : b.getWxLocation(a, function (a) {e(a);});}, AMapWX.prototype.getPoiAround = function (a) {function d(d) {var e = { key: b.key, location: d, s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion };a.querytypes && (e["types"] = a.querytypes), a.querykeywords && (e["keywords"] = a.querykeywords), wx.request({ url: "https://restapi.amap.com/v3/place/around", data: e, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {var c, d, e, f;if (b.data.status && "1" == b.data.status) {if (b = b.data, b && b.pois) {for (c = [], d = 0; d < b.pois.length; d++) {e = 0 == d ? a.iconPathSelected : a.iconPath, c.push({ latitude: parseFloat(b.pois[d].location.split(",")[1]), longitude: parseFloat(b.pois[d].location.split(",")[0]), iconPath: e, width: 22, height: 32, id: d, name: b.pois[d].name, address: b.pois[d].address });}f = { markers: c, poisData: b.pois }, a.success(f);}} else a.fail({ errCode: b.data.infocode, errMsg: b.data.info });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}var b = this,c = b.requestConfig;a.location ? d(a.location) : b.getWxLocation(a, function (a) {d(a);});}, AMapWX.prototype.getStaticmap = function (a) {function f(b) {c.push("location=" + b), a.zoom && c.push("zoom=" + a.zoom), a.size && c.push("size=" + a.size), a.scale && c.push("scale=" + a.scale), a.markers && c.push("markers=" + a.markers), a.labels && c.push("labels=" + a.labels), a.paths && c.push("paths=" + a.paths), a.traffic && c.push("traffic=" + a.traffic);var e = d + c.join("&");a.success({ url: e });}var e,b = this,c = [],d = "https://restapi.amap.com/v3/staticmap?";c.push("key=" + b.key), e = b.requestConfig, c.push("s=" + e.s), c.push("platform=" + e.platform), c.push("appname=" + e.appname), c.push("sdkversion=" + e.sdkversion), c.push("logversion=" + e.logversion), a.location ? f(a.location) : b.getWxLocation(a, function (a) {f(a);});}, AMapWX.prototype.getInputtips = function (a) {var b = this,c = b.requestConfig,d = { key: b.key, s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion };a.location && (d["location"] = a.location), a.keywords && (d["keywords"] = a.keywords), a.type && (d["type"] = a.type), a.city && (d["city"] = a.city), a.citylimit && (d["citylimit"] = a.citylimit), wx.request({ url: "https://restapi.amap.com/v3/assistant/inputtips", data: d, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {b && b.data && b.data.tips && a.success({ tips: b.data.tips });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}, AMapWX.prototype.getDrivingRoute = function (a) {var b = this,c = b.requestConfig,d = { key: b.key, s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion };a.origin && (d["origin"] = a.origin), a.destination && (d["destination"] = a.destination), a.strategy && (d["strategy"] = a.strategy), a.waypoints && (d["waypoints"] = a.waypoints), a.avoidpolygons && (d["avoidpolygons"] = a.avoidpolygons), a.avoidroad && (d["avoidroad"] = a.avoidroad), wx.request({ url: "https://restapi.amap.com/v3/direction/driving", data: d, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {b && b.data && b.data.route && a.success({ paths: b.data.route.paths, taxi_cost: b.data.route.taxi_cost || "" });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}, AMapWX.prototype.getWalkingRoute = function (a) {var b = this,c = b.requestConfig,d = { key: b.key, s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion };a.origin && (d["origin"] = a.origin), a.destination && (d["destination"] = a.destination), wx.request({ url: "https://restapi.amap.com/v3/direction/walking", data: d, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {b && b.data && b.data.route && a.success({ paths: b.data.route.paths });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}, AMapWX.prototype.getTransitRoute = function (a) {var b = this,c = b.requestConfig,d = { key: b.key, s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion };a.origin && (d["origin"] = a.origin), a.destination && (d["destination"] = a.destination), a.strategy && (d["strategy"] = a.strategy), a.city && (d["city"] = a.city), a.cityd && (d["cityd"] = a.cityd), wx.request({ url: "https://restapi.amap.com/v3/direction/transit/integrated", data: d, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {if (b && b.data && b.data.route) {var c = b.data.route;a.success({ distance: c.distance || "", taxi_cost: c.taxi_cost || "", transits: c.transits });}}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}, AMapWX.prototype.getRidingRoute = function (a) {var b = this,c = b.requestConfig,d = { key: b.key, s: c.s, platform: c.platform, appname: b.key, sdkversion: c.sdkversion, logversion: c.logversion };a.origin && (d["origin"] = a.origin), a.destination && (d["destination"] = a.destination), wx.request({ url: "https://restapi.amap.com/v4/direction/bicycling", data: d, method: "GET", header: { "content-type": "application/json" }, success: function success(b) {b && b.data && b.data.data && a.success({ paths: b.data.data.paths });}, fail: function fail(b) {a.fail({ errCode: "0", errMsg: b.errMsg || "" });} });}, module.exports.AMapWX = AMapWX;
+
 /***/ })
-]]);
+
+}]);
 //# sourceMappingURL=../../.sourcemap/mp-weixin/common/vendor.js.map
